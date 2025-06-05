@@ -1,0 +1,134 @@
+{
+  "IdentitySuiteOptions": {
+    "Database": {
+      "ConnectionStrings": {
+        "SqlServerConnection": "Server=(localdb)\\mssqllocaldb;Database=IdentitySuiteDb;Trusted_Connection=True;MultipleActiveResultSets=true",
+        "PostgreSQLConnection": "Host=localhost;Database=identitySuiteDb;Username=**username**;Password=**password**",
+        "MySqlConnection": "server=localhost;port3306;database=identitySuiteDb;user=**username**;password=**password**"
+      },
+      "Initialize": false,
+      "ApplyMigrations": false
+    },
+    "SupportedCultures": [
+      {
+        "Culture": "en-GB",
+        "Index": 0
+      },
+      {
+        "Culture": "it-IT",
+        "Index": 1
+      }
+    ],
+    "EmailConfiguration": {
+      "Provider": "Smtp",
+      "FromName": "",
+      "From": "",
+      "Host": "",
+      "Port": 587,
+      "UserName": "",
+      "Password": ""
+    },
+    "Cors": {
+      "AllowedOrigins": [],
+      "AllowedMethods": [],
+      "AllowedHeaders": [],
+      "ExposedHeaders": [],
+      "AllowCredentials": false,
+      "PreflightMaxAge": 600
+    },
+    "LoginProviders": [],
+    "OpenIddictOptions": {
+      "Scopes": [
+        "openid",
+        "profile",
+        "email"
+      ],
+      "Audiences": [],
+      "FlowConfiguration": {
+        "AllowAuthorizationCodeFlow": true,
+        "AllowClientCredentialsFlow": false,
+        "AllowRefreshTokenFlow": true,
+        "AllowPasswordFlow": false,
+        "RequireProofKeyForCodeExchange": true,
+        "RequirePushedAuthorizationRequests": true
+      },
+      "TokenConfiguration": {
+        "UseReferenceAccessTokens": true,
+        "UseReferenceRefreshTokens": true
+      },
+      "AspNetCoreConfiguration": {
+        "EnableStatusCodePagesIntegration": true,
+        "EnableAuthorizationEndpointPassthrough": true,
+        "EnableTokenEndpointPassthrough": true,
+        "EnableUserInfoEndpointPassthrough": true,
+        "EnableEndSessionEndpointPassthrough": true
+      },
+      "LifeTimeConfiguration": {
+        "AccessTokenLifetime": "01:00:00",
+        "IdentityTokenLifetime": "00:30:00",
+        "AuthorizationCodeLifetime": "00:05:00",
+        "UserCodeLifetime": "00:10:00",
+        "DeviceCodeLifetime": "00:30:00",
+        "RefreshTokenLifetime": "14.00:00:00"
+      },
+      "Certificates": {
+        "SigningCertificatePath": "",
+        "EncryptionCertificatePath": ""
+      },
+      "Endpoint": {
+        "AuthorizationUris": [
+          "connect/authorize",
+          "connect/consent"
+        ],
+        "EndSessionUris": [
+          "connect/LogoutGet",
+          "connect/LogoutPost"
+        ],
+        "IntrospectionUris": [
+          "connect/introspect"
+        ],
+        "TokenUris": [
+          "connect/token"
+        ],
+        "UserInfoUris": [
+          "connect/userinfo"
+        ],
+        "PushedAuthorizationUris": [
+          "connect/par"
+        ]
+      },
+      "ServerEndpointOptions": {
+        "AuthorizeEndpoint": null,
+        "ConsentEndpoint": null,
+        "UserInfoEndpoint": null,
+        "TokenEndpoint": null,
+        "LogoutGetEndpoint": null,
+        "LogoutPostEndpoint": null
+      }
+    },
+    "IdentityOptions": {
+      "RequiredLength": 6,
+      "RequireNonAlphanumeric": true,
+      "RequireLowercase": true,
+      "RequireUppercase": true,
+      "RequireDigit": true,
+      "RequiredUniqueChars": 1,
+      "AllowedPasswordRegex": "^[\\w,;.\u002B\\-!|$^()@\\[\\]]\u002B$",
+      "AllowedForNewUsers": true,
+      "DefaultLockoutTimeSpanInMinutes": 5,
+      "MaxFailedAccessAttempts": 5,
+      "RequireUniqueEmail": true,
+      "AllowedUserNameRegex": "^[a-zA-Z0-9]\u002B([._-][a-zA-Z0-9]\u002B)*$",
+      "RequireConfirmedEmail": true,
+      "RequireConfirmedAccount": false,
+      "RequireConfirmedPhoneNumber": false,
+      "ProtectPersonalData": false,
+      "MaxLengthForKeys": 0,
+      "EnableUserRegistration": true
+    },
+    "LicenseKey": "",
+    "LicenseServer": null,
+    "GoogleFontKey": "",
+    "VoglioVedereSeNonLaTrovo": null
+  }
+}

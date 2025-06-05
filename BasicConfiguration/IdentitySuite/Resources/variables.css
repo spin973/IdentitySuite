@@ -1,0 +1,29 @@
+:root {
+    /* light primary */
+    --primary-50: oklch(0.97 0.014 254.604);
+    --primary-100: oklch(0.932 0.032 255.585);
+    --primary-200: oklch(0.882 0.059 254.128);
+    --primary-300: oklch(0.809 0.105 251.813);
+    --primary-400: oklch(0.707 0.165 254.624);
+    --primary-500: oklch(0.623 0.214 259.815);
+    --primary-600: oklch(0.546 0.245 262.881);
+    --primary-700: oklch(0.488 0.243 264.376);
+    --primary-800: oklch(0.424 0.199 265.638);
+    --primary-900: oklch(0.379 0.146 265.522);
+    --primary-950: oklch(0.282 0.091 267.935);
+    /* dark primary */
+    --dark-50: oklch(0.984 0.003 247.858);
+    --dark-100: oklch(0.968 0.007 247.896);
+    --dark-200: oklch(0.929 0.013 255.508);
+    --dark-300: oklch(0.869 0.022 252.894);
+    --dark-400: oklch(0.704 0.04 256.788);
+    --dark-500: oklch(0.554 0.046 257.417);
+    --dark-600: oklch(0.446 0.043 257.281);
+    --dark-700: oklch(0.372 0.044 257.287);
+    --dark-800: oklch(0.279 0.041 260.031);
+    --dark-900: oklch(0.208 0.042 265.755);
+    --dark-950: oklch(0.129 0.042 264.695);
+    /* fonts */
+    --heading: "Rubik";
+    --body: "Open Sans";
+}

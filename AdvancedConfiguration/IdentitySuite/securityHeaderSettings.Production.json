@@ -1,0 +1,15 @@
+{
+  "SecurityHeader": {
+    "FormSrcUris": [],
+    "FontSrcUris": [
+      "https://cdnjs.cloudflare.com",
+      "https://fonts.gstatic.com"
+    ],
+    "StyleSrcUris": [
+      "https://cdnjs.cloudflare.com"
+    ],
+    "ScriptSrcUris": [
+      "https://cdnjs.cloudflare.com"
+    ]
+  }
+}

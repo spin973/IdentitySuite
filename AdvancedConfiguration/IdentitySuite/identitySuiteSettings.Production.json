@@ -1,0 +1,98 @@
+{
+  "IdentitySuiteOptions": {
+    "Database": {
+      "ConnectionStrings": {
+        "SqlServerConnection": "",
+        "PostgreSQLConnection": "",
+        "MySqlConnection": ""
+      },
+      "Initialize": false,
+      "ApplyMigrations": false
+    },
+    "SupportedCultures": [
+      {
+        "Culture": "en-GB",
+        "Index": 0
+      }
+    ],
+    "EmailConfiguration": {
+      "Provider": "Smtp",
+      "FromName": "",
+      "From": "",
+      "Host": "",
+      "Port": 587,
+      "UserName": "",
+      "Password": ""
+    },
+    "Cors": {
+      "AllowedOrigins": [],
+      "AllowedMethods": [],
+      "AllowedHeaders": [],
+      "ExposedHeaders": [],
+      "AllowCredentials": false,
+      "PreflightMaxAge": 600
+    },
+    "LoginProviders": [],
+    "OpenIddictOptions": {
+      "Scopes": [
+        "openid",
+        "profile",
+        "email"
+      ],
+      "Audiences": [],
+      "FlowConfiguration": {
+        "AllowAuthorizationCodeFlow": true,
+        "AllowClientCredentialsFlow": false,
+        "AllowRefreshTokenFlow": true,
+        "AllowPasswordFlow": false,
+        "RequireProofKeyForCodeExchange": true,
+        "RequirePushedAuthorizationRequests": true
+      },
+      "TokenConfiguration": {
+        "UseReferenceAccessTokens": true,
+        "UseReferenceRefreshTokens": true
+      },
+      "AspNetCoreConfiguration": {
+        "EnableStatusCodePagesIntegration": true,
+        "EnableAuthorizationEndpointPassthrough": true,
+        "EnableTokenEndpointPassthrough": true,
+        "EnableUserInfoEndpointPassthrough": true,
+        "EnableEndSessionEndpointPassthrough": true
+      },
+      "LifeTimeConfiguration": {
+        "AccessTokenLifetime": "01:00:00",
+        "IdentityTokenLifetime": "00:30:00",
+        "AuthorizationCodeLifetime": "00:05:00",
+        "UserCodeLifetime": "00:10:00",
+        "DeviceCodeLifetime": "00:30:00",
+        "RefreshTokenLifetime": "14.00:00:00"
+      },
+      "Certificates": {
+        "SigningCertificatePath": "",
+        "EncryptionCertificatePath": ""
+      }
+    },
+    "IdentityOptions": {
+      "RequiredLength": 6,
+      "RequireNonAlphanumeric": true,
+      "RequireLowercase": true,
+      "RequireUppercase": true,
+      "RequireDigit": true,
+      "AllowedPasswordRegex": "^[\\w,;.+\\-!|$^()@\\[\\]]+$",
+      "RequiredUniqueChars": 1,
+      "AllowedForNewUsers": true,
+      "DefaultLockoutTimeSpanInMinutes": 5,
+      "MaxFailedAccessAttempts": 5,
+      "AllowedUserNameRegex": "^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*$",
+      "RequireUniqueEmail": true,
+      "RequireConfirmedEmail": true,
+      "RequireConfirmedAccount": false,
+      "RequireConfirmedPhoneNumber": false,
+      "ProtectPersonalData": false,
+      "EnableUserRegistration": true,
+      "MaxLengthForKeys": 0
+    },
+    "LicenseKey": "",
+    "GoogleFontKey": ""
+  }
+}
