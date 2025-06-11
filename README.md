@@ -12,7 +12,7 @@ This repository contains two demo projects that demonstrate how to configure the
 The project in the `BasicConfiguration` folder shows the essential configuration to integrate IdentitySuite into your project.
 
 ### Configuration
-1. Edit `appsettings.json` with your configurations
+1. Configure your database by editing the connection string in: `/IdentitySuite/identitySuiteSettings.Development.json`
 2. Run `dotnet restore`
 3. Start the project with `dotnet run`
 
@@ -26,7 +26,7 @@ The project in the `AdvancedConfiguration` folder demonstrates how to customize 
 - Advanced Scope Management
 
 ### Configuration
-1. Edit `appsettings.json` with your configurations
+1. Configure your database by editing the connection string in: `/IdentitySuite/identitySuiteSettings.Development.json`
 2. Run `dotnet restore`
 3. Start the project with `dotnet run`
 
