@@ -1,3 +1,5 @@
+[![IdentitySuite](https://img.shields.io/nuget/v/IdentitySuite.svg?style=plastic)](https://nuget.org/packages/IdentitySuite)
+
 # IdentitySuite Demo Projects
 
 This repository contains two demo projects that demonstrate how to configure the **IdentitySuite** library in different scenarios.
