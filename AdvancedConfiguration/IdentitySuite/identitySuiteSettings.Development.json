@@ -41,7 +41,8 @@
       "Scopes": [
         "openid",
         "profile",
-        "email"
+        "email",
+        "roles"
       ],
       "Audiences": [],
       "FlowConfiguration": {
@@ -49,6 +50,7 @@
         "AllowClientCredentialsFlow": false,
         "AllowRefreshTokenFlow": true,
         "AllowPasswordFlow": false,
+        "EnableUserInfoEndpoint": true,
         "RequireProofKeyForCodeExchange": true,
         "RequirePushedAuthorizationRequests": true
       },
@@ -128,7 +130,6 @@
     },
     "LicenseKey": "",
     "LicenseServer": null,
-    "GoogleFontKey": "",
-    "VoglioVedereSeNonLaTrovo": null
+    "GoogleFontKey": ""
   }
 }

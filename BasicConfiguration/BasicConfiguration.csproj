@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="IdentitySuite" Version="1.0.0-rc.1" />
-      <PackageReference Include="IdentitySuite.EntityFrameworkCore.SqlServer" Version="1.0.0-rc.1" />
+      <PackageReference Include="IdentitySuite" Version="1.0.0-rc.3" />
+      <PackageReference Include="IdentitySuite.EntityFrameworkCore.SqlServer" Version="1.0.0-rc.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Certificates\" />
     </ItemGroup>
 
 </Project>

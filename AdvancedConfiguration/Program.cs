@@ -15,14 +15,11 @@ try
     // overload to customize the IdentitySuiteOptions
     builder.AddIdentitySuiteServices(options =>
     {
-        /* You can import the default configuration defined in identitySuiteSettings.json, 
-         * keeping the ability to change options via the Configuration menu, 
-         * or you can override properties or create a new, completely customized object. */
-        options.ImportDefaultConfiguration(builder.BuildIdentitySuiteConfiguration());
-
         /* add one or more delegates to the endpoints you need to customize. 
          * The endpoints used in this example are the default ones used by the application, 
-         * to have a complete example of the necessary configuration. */
+         * to have a complete example of the necessary configuration. 
+         * Please note that the properties you set in 'options' override the settings managed in the configuration menu
+         * and therefore those parameters will not be operational. */
         options.OpenIddictOptions.ServerEndpointOptions = new()
         {
             AuthorizeEndpoint = CustomEndpoints.AuthorizeEndpointDelegate,
