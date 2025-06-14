@@ -1,0 +1,38 @@
+﻿@page "/authorize"
+
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+
+@attribute [Authorize]
+
+<PageTitle>User Claims</PageTitle>
+
+<h1>User Claims</h1>
+
+@if (claims.Any())
+{
+    <ul>
+        @foreach (var claim in claims)
+        {
+            <li><b>@claim.Type:</b> @claim.Value</li>
+        }
+    </ul>
+}
+
+@code {
+    private IEnumerable<Claim> claims = [];
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthState == null)
+        {
+            return;
+        }
+
+        var authState = await AuthState;
+        claims = authState.User.Claims;
+    }
+}
