@@ -6,11 +6,11 @@ This repository contains two demo projects that demonstrate how to configure the
 
 ## Repository Structure
 
-- **BasicConfiguration**: Minimum configuration required to get IdentitySuite up and running.
-- **AdvancedConfiguration**: Advanced example with customization of OpenIddict endpoints.
-- **Clients**: Some projects with minimal configuration to play with:
--- **BlazorClient**: Blazor web application
--- More to come
+1. **BasicConfiguration**: Minimum configuration required to get IdentitySuite up and running.
+2. **AdvancedConfiguration**: Advanced example with customization of OpenIddict endpoints.
+3. **Clients**: Some projects with minimal configuration to play with:
+   - **BlazorClient**: Blazor web application
+   - More to come
 
 ## BasicConfiguration
 
