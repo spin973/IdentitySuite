@@ -9,7 +9,9 @@ This repository contains two demo projects that demonstrate how to configure the
 - **BasicConfiguration**: Minimum configuration required to get IdentitySuite up and running.
 - **AdvancedConfiguration**: Advanced example with customization of OpenIddict endpoints.
 - **Clients**: Some projects with minimal configuration to play with:
--- **BlazorClient**: Blazor web application
+-- **BlazorClient**: Blazor web application, Authorization code flow + PKCE
+-- **MvcClient**: ASP.NET Core MVC web application, a server-side application using OpenID Connect
+-- **WebApi**: ASP.NET Core Web API application, a resource using introspection to validate tokens
 -- More to come
 
 ## BasicConfiguration
@@ -27,8 +29,6 @@ The project in the `AdvancedConfiguration` folder demonstrates how to customize 
 
 ### Demonstrated Features
 - Customize Authorization Endpoints
-- Configure Custom Tokens
-- Advanced Scope Management
 
 ### Configuration
 1. Configure your database by editing the connection string in: `/IdentitySuite/identitySuiteSettings.Development.json`
@@ -36,29 +36,9 @@ The project in the `AdvancedConfiguration` folder demonstrates how to customize 
 3. Start the project with `dotnet run`
 
 
-## Clients
+## Using Clients
 
-### Blazor Client Configuration
-
-To configure the Blazor client in **IdentitySuite**, follow these steps:
-
-1. **Navigate to Applications Menu**  
-   Go to *Clients/Resources* → *Applications* in the IdentitySuite dashboard.
-
-2. **Create a New Application**  
-   - Click **Add**
-   - Select **Single Page Application** as the application type
-   - Enter `blazor-client` as the *Client Id*
-
-3. **Configure Application URLs**  
-   Under *Application Urls*, add the following:
-   - **Redirect URIs**:  
-     `https://localhost:5010/signin-oidc`
-   - **Post Logout Redirect URIs**:  
-     `https://localhost:5010/signout-callback-oidc`
-
-4. **Save Changes**  
-   Click the **Save** button to apply your configuration.
+You can use the clients in the `Client` folder to test the IdentitySuite server. Each client has its own configuration and can run independently or simultaneously. Each client has the ability to call the `WebAPI` server (weatherforecast endpoint) to verify that authentication is working.
 
 
 ## Support
