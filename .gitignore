@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/AdvancedConfiguration/IdentitySuite/Resources/clients/css/mvc-client.min.css
+/BasicConfiguration/IdentitySuite/Resources/clients/css/mvc-client.min.css

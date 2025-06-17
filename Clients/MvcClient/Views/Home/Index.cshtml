@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="jumbotron">
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        <h1>Welcome, @User.Identity.Name</h1>
+
+        <p>
+            @foreach (var claim in Context.User.Claims)
+            {
+                <div>@claim.Type: <b>@claim.Value</b></div>
+            }
+        </p>
+
+        @if (Model != null)
+        {
+            <h3>Response from WebApi</h3>
+            <ul>
+            @foreach (var forecast in Model)
+            {
+                <li>
+                    @forecast.Date.ToString("dd/MM/yyyy") - @forecast.TemperatureC°C - @forecast.Summary
+                </li>
+            }
+            </ul>
+        }
+
+        <form action="~/" method="post">
+            <button class="btn btn-lg btn-warning mt-2 mb-4" type="submit">Call external WebApi</button>
+        </form>
+
+        <a class="btn btn-lg btn-danger" href="/logout">Sign out</a>
+    }
+
+    else
+    {
+        <h1>Welcome, anonymous</h1>
+        <a class="btn btn-lg btn-success" href="/login">Sign in</a>
+    }
+</div>

@@ -1,5 +1,8 @@
 using BlazorClient.Authentication;
+using BlazorClient.Client.Services;
 using BlazorClient.Components;
+using BlazorClient.Services;
+using BlazorClient.Shared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -27,6 +30,8 @@ builder.Services.AddAuthentication(options =>
 
     options.Scope.Add("email");
     options.Scope.Add("profile");
+    options.Scope.Add("roles");
+    options.Scope.Add("Public.Webapi");
 
     options.ResponseType = OpenIdConnectResponseType.Code;
     options.UsePkce = true;
@@ -67,10 +72,17 @@ builder.Services.ConfigureCookieOidc(CookieAuthenticationDefaults.Authentication
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
+builder.Services.AddControllers();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<TokenHandler>();
 
-builder.Services.AddControllers();
+builder.Services.AddScoped<IWeatherService, WeatherServiceServer>();
+
+builder.Services.AddHttpClient("WebApiClient", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5002/");
+}).AddHttpMessageHandler<TokenHandler>();
 
 var app = builder.Build();
 
