@@ -1,0 +1,47 @@
+{
+  "Applications": [
+    {
+      "ApplicationType": "web",
+      "ClientId": "blazor-client",
+      "DisplayName": "Blazor Client",
+      "ClientType": "public",
+      "ConsentType": "explicit",
+      "RedirectUris": "[ \"https://localhost:5010/signin-oidc\" ]",
+      "PostLogoutRedirectUris": "[ \"https://localhost:5010/signout-callback-oidc\" ]",
+      "Permissions": "[ \"ept:authorization\", \"ept:end_session\", \"ept:token\", \"ept:pushed_authorization\", \"gt:authorization_code\", \"gt:refresh_token\", \"rst:code\", \"scp:email\", \"scp:profile\", \"scp:roles\", \"scp:Public.Webapi\" ]",
+      "Requirements": "[ \"ft:pkce\", \"ft:par\" ]",
+      "Properties": "{\"urn:net:identitysuite:property:type\":\"1\"}"
+    },
+    {
+      "ApplicationType": "web",
+      "ClientId": "mvc-client",
+      "DisplayName": "MVC Client",
+      "ClientType": "confidential",
+      "ClientSecret": "P9gXukEbOIAG1hIU9saNJUnNjU9xvVUC",
+      "ConsentType": "explicit",
+      "RedirectUris": "[ \"https://localhost:5012/signin-oidc\" ]",
+      "PostLogoutRedirectUris": "[ \"https://localhost:5012/signout-callback-oidc\" ]",
+      "Permissions": "[ \"ept:authorization\", \"ept:end_session\", \"ept:token\", \"ept:pushed_authorization\", \"gt:authorization_code\", \"gt:refresh_token\", \"rst:code\", \"scp:email\", \"scp:profile\", \"scp:roles\", \"scp:Public.Webapi\" ]",
+      "Requirements": "[ \"ft:pkce\", \"ft:par\" ]",
+      "Properties": "{\"urn:net:identitysuite:property:type\":\"2\"}"
+    }
+  ],
+  "Resources": [
+    {
+      "ClientId": "webapi",
+      "ClientType": "confidential",
+      "ClientSecret": "4idA/xezo0qcB86bwk7SXQ==",
+      "DisplayName": "WebApi",
+      "ResourceName": "Public.Webapi",
+      "Permissions": "[\"ept:introspection\"]"
+    }
+  ],
+  "Scopes": [
+    {
+      "Name": "Public.Webapi",
+      "DisplayName": "Public.Webapi",
+      "Description": "Scope Webapi",
+      "Resources": "[\"webapi\"]"
+    }
+  ]
+}

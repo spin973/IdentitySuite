@@ -72,36 +72,6 @@
       "Certificates": {
         "SigningCertificatePath": "",
         "EncryptionCertificatePath": ""
-      },
-      "Endpoint": {
-        "AuthorizationUris": [
-          "connect/authorize",
-          "connect/consent"
-        ],
-        "EndSessionUris": [
-          "connect/LogoutGet",
-          "connect/LogoutPost"
-        ],
-        "IntrospectionUris": [
-          "connect/introspect"
-        ],
-        "TokenUris": [
-          "connect/token"
-        ],
-        "UserInfoUris": [
-          "connect/userinfo"
-        ],
-        "PushedAuthorizationUris": [
-          "connect/par"
-        ]
-      },
-      "ServerEndpointOptions": {
-        "AuthorizeEndpoint": null,
-        "ConsentEndpoint": null,
-        "UserInfoEndpoint": null,
-        "TokenEndpoint": null,
-        "LogoutGetEndpoint": null,
-        "LogoutPostEndpoint": null
       }
     },
     "IdentityOptions": {
