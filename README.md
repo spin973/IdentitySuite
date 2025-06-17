@@ -9,10 +9,10 @@ This repository contains two demo projects that demonstrate how to configure the
 - **BasicConfiguration**: Minimum configuration required to get IdentitySuite up and running.
 - **AdvancedConfiguration**: Advanced example with customization of OpenIddict endpoints.
 - **Clients**: Some projects with minimal configuration to play with:
--- **BlazorClient**: Blazor web application, Authorization code flow + PKCE
--- **MvcClient**: ASP.NET Core MVC web application, a server-side application using OpenID Connect
--- **WebApi**: ASP.NET Core Web API application, a resource using introspection to validate tokens
--- More to come
+  - **BlazorClient**: Blazor web application, Authorization code flow + PKCE
+  - **MvcClient**: ASP.NET Core MVC web application, a server-side application using OpenID Connect
+  - **WebApi**: ASP.NET Core Web API application, a resource using introspection to validate tokens
+  - More to come
 
 ## BasicConfiguration
 
