@@ -9,8 +9,11 @@ This repository contains two demo projects that demonstrate how to configure the
 - **BasicConfiguration**: Minimum configuration required to get IdentitySuite up and running.
 - **AdvancedConfiguration**: Advanced example with customization of OpenIddict endpoints.
 - **Clients**: Some projects with minimal configuration to play with:
-  - **BlazorClient**: Blazor web application, Authorization code flow + PKCE
-  - **MvcClient**: ASP.NET Core MVC web application, a server-side application using OpenID Connect
+  - **BlazorClient**: Blazor web application, Authorization code flow + PKCE, use access tokens for the Web API
+  - **MvcClient**: ASP.NET Core MVC web application, a server-side application using OpenID Connect, use access tokens for the Web API
+  - **ClientCredentialFlow**: Console application, a client using the Client Credentials flow, request access tokens for the Web API
+  - **ResourceOwnerFlow**: Console application, a client using the Resource Owner Password Credentials flow, request access tokens for the Web API
+  - **DeviceAuthorizationFlow**: Console application, a client using the Device Authorization flow, request access tokens for the Web API
   - **WebApi**: ASP.NET Core Web API application, a resource using introspection to validate tokens
   - More to come
 
@@ -42,5 +45,7 @@ You can use the clients in the `Client` folder to test the IdentitySuite server.
 
 
 ## Support
+
+For documentation, please refer to the [IdentitySuite documentation](https://identitysuite.net/documentation). The documentation provides detailed information on how to use the library, including configuration, usage examples, and advanced features.
 
 For issues or questions, open an [issue](https://github.com/spin973/IdentitySuite/issues) on GitHub.

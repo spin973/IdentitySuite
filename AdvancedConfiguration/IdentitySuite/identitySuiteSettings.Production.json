@@ -45,8 +45,11 @@
         "AllowClientCredentialsFlow": false,
         "AllowRefreshTokenFlow": true,
         "AllowPasswordFlow": false,
+        "AllowDeviceAuthorizationFlow": false,
         "RequireProofKeyForCodeExchange": true,
-        "RequirePushedAuthorizationRequests": true
+        "RequirePushedAuthorizationRequests": true,
+        "EnableUserInfoEndpoint": true,
+        "AcceptAnonymousClients": false
       },
       "TokenConfiguration": {
         "UseReferenceAccessTokens": true,
@@ -57,7 +60,8 @@
         "EnableAuthorizationEndpointPassthrough": true,
         "EnableTokenEndpointPassthrough": true,
         "EnableUserInfoEndpointPassthrough": true,
-        "EnableEndSessionEndpointPassthrough": true
+        "EnableEndSessionEndpointPassthrough": true,
+        "EnableEndUserVerificationEndpointPassthrough": false
       },
       "LifeTimeConfiguration": {
         "AccessTokenLifetime": "01:00:00",

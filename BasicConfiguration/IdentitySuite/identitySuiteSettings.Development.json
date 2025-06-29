@@ -2,8 +2,8 @@
   "IdentitySuiteOptions": {
     "Database": {
       "ConnectionStrings": {
-        "SqlServerConnection": "Server=(localdb)\\mssqllocaldb;Database=IdentitySuiteDb;Trusted_Connection=True;MultipleActiveResultSets=true",
-        "PostgreSQLConnection": "Host=localhost;Database=identitySuiteDb;Username=**username**;Password=**password**",
+        "SqlServerConnection": "Server=(localdb)\\mssqllocaldb;Database=IdentitySuiteDb.Basic;Trusted_Connection=True;MultipleActiveResultSets=true",
+        "PostgreSqlConnection": null,
         "MySqlConnection": "server=localhost;port3306;database=identitySuiteDb;user=**username**;password=**password**"
       },
       "Initialize": false,
@@ -40,15 +40,19 @@
         "email",
         "roles"
       ],
-      "Audiences": [],
+      "Audiences": [
+        "webapi"
+      ],
       "FlowConfiguration": {
         "AllowAuthorizationCodeFlow": true,
-        "AllowClientCredentialsFlow": false,
+        "AllowClientCredentialsFlow": true,
         "AllowRefreshTokenFlow": true,
-        "AllowPasswordFlow": false,
-        "EnableUserInfoEndpoint": true,
+        "AllowPasswordFlow": true,
+        "AllowDeviceAuthorizationFlow": true,
         "RequireProofKeyForCodeExchange": true,
-        "RequirePushedAuthorizationRequests": true
+        "RequirePushedAuthorizationRequests": false,
+        "EnableUserInfoEndpoint": true,
+        "AcceptAnonymousClients": true
       },
       "TokenConfiguration": {
         "UseReferenceAccessTokens": true,
@@ -59,6 +63,7 @@
         "EnableAuthorizationEndpointPassthrough": true,
         "EnableTokenEndpointPassthrough": true,
         "EnableUserInfoEndpointPassthrough": true,
+        "EnableEndUserVerificationEndpointPassthrough": true,
         "EnableEndSessionEndpointPassthrough": true
       },
       "LifeTimeConfiguration": {
@@ -68,10 +73,6 @@
         "UserCodeLifetime": "00:10:00",
         "DeviceCodeLifetime": "00:30:00",
         "RefreshTokenLifetime": "14.00:00:00"
-      },
-      "Certificates": {
-        "SigningCertificatePath": "",
-        "EncryptionCertificatePath": ""
       }
     },
     "IdentityOptions": {
@@ -95,7 +96,6 @@
       "EnableUserRegistration": true
     },
     "LicenseKey": "",
-    "LicenseServer": null,
     "GoogleFontKey": ""
   }
 }

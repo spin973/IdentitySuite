@@ -1,9 +1,6 @@
 {
   "SecurityHeader": {
-    "FormSrcUris": [
-      "https://localhost:5010/signin-oidc",
-      "https://localhost:5012/signin-oidc"
-    ],
+    "FormSrcUris": [],
     "FontSrcUris": [
       "https://cdnjs.cloudflare.com",
       "https://fonts.gstatic.com"

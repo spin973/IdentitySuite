@@ -24,6 +24,25 @@
       "Permissions": "[ \"ept:authorization\", \"ept:end_session\", \"ept:token\", \"ept:pushed_authorization\", \"gt:authorization_code\", \"gt:refresh_token\", \"rst:code\", \"scp:email\", \"scp:profile\", \"scp:roles\", \"scp:Public.Webapi\" ]",
       "Requirements": "[ \"ft:pkce\", \"ft:par\" ]",
       "Properties": "{\"urn:net:identitysuite:property:type\":\"2\"}"
+    },
+    {
+      "ApplicationType": "native",
+      "ClientId": "client-credential-flow",
+      "DisplayName": "Client Credential Flow",
+      "ClientType": "confidential",
+      "ClientSecret": "jjykabZuS6kZGBeoG9wIpUKLFtBk9Fdb",
+      "ConsentType": "implicit",
+      "Permissions": "[ \"ept:token\", \"gt:client_credentials\", \"scp:Public.Webapi\" ]",
+      "Properties": "{\"urn:net:identitysuite:property:type\":\"4\"}"
+    },
+    {
+      "ApplicationType": "web",
+      "ClientId": "device",
+      "DisplayName": "Device Client",
+      "ClientType": "public",
+      "ConsentType": "explicit",
+      "Permissions": "[ \"ept:token\", \"ept:device_authorization\", \"gt:urn:ietf:params:oauth:grant-type:device_code\", \"gt:refresh_token\", \"scp:email\", \"scp:profile\", \"scp:roles\" ]",
+      "Properties": "{\"urn:net:identitysuite:property:type\":\"5\"}"
     }
   ],
   "Resources": [

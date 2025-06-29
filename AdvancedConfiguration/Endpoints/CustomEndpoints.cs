@@ -1,10 +1,12 @@
 ﻿using IdentitySuite.Core.Data.Entities;
 using IdentitySuite.Core.Extensions;
+using IdentitySuite.Core.Models.Endpoints;
 using IdentitySuite.Core.Services.Interfaces;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -31,12 +33,13 @@ public static class CustomEndpoints
         ILogger logger)
     {
         var request = httpContext.GetOpenIddictServerRequest() ??
-            throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+                      throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
         if (!string.IsNullOrEmpty(request.UiLocales))
         {
             var culture = new CultureInfo(request.UiLocales);
-            var supportedCultures = localizationOptions.Value.SupportedUICultures?.Select(cultureInfo => cultureInfo.Name).ToList();
+            var supportedCultures = localizationOptions.Value.SupportedUICultures
+                ?.Select(cultureInfo => cultureInfo.Name).ToList();
             if (supportedCultures?.Contains(culture.Name) == true)
             {
                 CultureInfo.CurrentCulture = culture;
@@ -94,14 +97,17 @@ public static class CustomEndpoints
         {
             var prompt = string.Join(" ", request.GetPromptValues().Remove(PromptValues.Login));
 
-            var parameters = httpRequest.HasFormContentType ?
-                httpRequest.Form.Where(parameter => parameter.Key != Parameters.Prompt).ToList() :
-                httpRequest.Query.Where(parameter => parameter.Key != Parameters.Prompt).ToList();
+            var parameters = httpRequest.HasFormContentType
+                ? httpRequest.Form.Where(parameter => parameter.Key != Parameters.Prompt).ToList()
+                : httpRequest.Query.Where(parameter => parameter.Key != Parameters.Prompt).ToList();
 
             parameters.Add(KeyValuePair.Create(Parameters.Prompt, new StringValues(prompt)));
 
             return Results.Challenge(
-                properties: new AuthenticationProperties { RedirectUri = httpRequest.PathBase + httpRequest.Path + QueryString.Create(parameters) },
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = httpRequest.PathBase + httpRequest.Path + QueryString.Create(parameters)
+                },
                 authenticationSchemes: [IdentityConstants.ApplicationScheme]);
         }
 
@@ -123,8 +129,8 @@ public static class CustomEndpoints
             return Results.Challenge(
                 properties: new AuthenticationProperties
                 {
-                    RedirectUri = httpRequest.PathBase + httpRequest.Path + QueryString.Create(httpRequest.HasFormContentType ?
-                        httpRequest.Form.ToList() : httpRequest.Query.ToList())
+                    RedirectUri = httpRequest.PathBase + httpRequest.Path + QueryString.Create(
+                        httpRequest.HasFormContentType ? httpRequest.Form.ToList() : httpRequest.Query.ToList())
                 },
                 authenticationSchemes: [IdentityConstants.ApplicationScheme]);
         }
@@ -148,7 +154,8 @@ public static class CustomEndpoints
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
                 {
                     [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.LoginRequired,
-                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "Details concerning the calling client application cannot be found."
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                        "Details concerning the calling client application cannot be found."
                 }),
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
@@ -167,7 +174,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.ConsentRequired,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The logged in user is not allowed to access this client application."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The logged in user is not allowed to access this client application."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
 
@@ -182,11 +190,11 @@ public static class CustomEndpoints
                 var authorization = authorizations.LastOrDefault();
 
                 authorization ??= await authorizationManager.CreateAsync(
-                        principal: principal,
-                        subject: await userManager.GetUserIdAsync(user),
-                        client: clientApplication.Id,
-                        type: AuthorizationTypes.Permanent,
-                        scopes: principal.GetScopes());
+                    principal: principal,
+                    subject: await userManager.GetUserIdAsync(user),
+                    client: clientApplication.Id,
+                    type: AuthorizationTypes.Permanent,
+                    scopes: principal.GetScopes());
 
                 principal.SetAuthorizationId(await authorizationManager.GetIdAsync(authorization));
 
@@ -195,7 +203,8 @@ public static class CustomEndpoints
                     claim.SetDestinations(GetDestinations(claim, principal));
                 }
 
-                return Results.SignIn(principal, authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                return Results.SignIn(principal,
+                    authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
             case ConsentTypes.Explicit when request.HasPromptValue(PromptValues.None):
             case ConsentTypes.Systematic when request.HasPromptValue(PromptValues.None):
@@ -203,18 +212,20 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.ConsentRequired,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "Interactive user consent is required."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "Interactive user consent is required."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
 
             default:
-                return Results.LocalRedirect($"/Account/Consent{httpContext.Request.QueryString}&clientId={clientApplication.ClientId}&scope={request.Scope}");
+                return Results.LocalRedirect(
+                    $"/Account/Consent{httpContext.Request.QueryString}&clientId={clientApplication.ClientId}&scope={request.Scope}");
         }
     }
 
     public static async Task<IResult> ConsentEndpointDelegate(
+        [FromForm] ConsentModel? model,
         HttpContext httpContext,
-        HttpRequest httpRequest,
         ClaimsPrincipal claimsPrincipal,
         UserManager<IdentityUserEntity> userManager,
         SignInManager<IdentityUserEntity> signInManager,
@@ -223,8 +234,17 @@ public static class CustomEndpoints
         IOpenIddictAuthorizationManager authorizationManager,
         ILogger logger)
     {
-        if (!bool.TryParse(httpRequest.Query["agreement"], out var agreement) || !agreement)
+        var request = httpContext.GetOpenIddictServerRequest() ?? 
+                      throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+
+        // Retrieve the profile of the logged-in user.
+        var user = await userManager.GetUserAsync(claimsPrincipal) ?? 
+                   throw new InvalidOperationException("The user details cannot be retrieved.");
+        
+        if (model is not { Agreement: true })
         {
+            logger.LogInformation("User {User} has rejected consent.", user.Id);
+            
             return Results.Forbid(
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
                 {
@@ -234,17 +254,11 @@ public static class CustomEndpoints
                 }),
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
-
-        var request = httpContext.GetOpenIddictServerRequest() ??
-                      throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
-
-        // Retrieve the profile of the logged-in user.
-        var user = await userManager.GetUserAsync(claimsPrincipal) ??
-                   throw new InvalidOperationException("The user details cannot be retrieved.");
-
+        
         // Retrieve the application details from the database.
-        var application = await applicationManager.FindByClientIdAsync(request.ClientId ?? string.Empty) ??
-                          throw new InvalidOperationException("Details concerning the calling client application cannot be found.");
+        var application = await applicationManager.FindByClientIdAsync(request.ClientId ?? string.Empty) ?? 
+                          throw new InvalidOperationException(
+                              "Details concerning the calling client application cannot be found.");
 
         // Retrieve the permanent authorizations associated with the user and the calling client application.
         var authorizations = await authorizationManager.FindAsync(
@@ -257,13 +271,15 @@ public static class CustomEndpoints
         // Note: the same check is already made in the other action but is repeated
         // here to ensure a malicious user can't abuse this POST-only endpoint and
         // force it to return a valid response without the external authorization.
-        if (authorizations.Count == 0 && await applicationManager.HasConsentTypeAsync(application, ConsentTypes.External))
+        if (authorizations.Count == 0 &&
+            await applicationManager.HasConsentTypeAsync(application, ConsentTypes.External))
         {
             return Results.Forbid(
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
                 {
                     [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.ConsentRequired,
-                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The logged in user is not allowed to access this client application."
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                        "The logged in user is not allowed to access this client application."
                 }),
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
@@ -293,10 +309,10 @@ public static class CustomEndpoints
         {
             claim.SetDestinations(GetDestinations(claim, principal));
         }
-
+        
+        logger.LogInformation("User {User} has granted consent.", user.Id);
         // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
         return Results.SignIn(principal, authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-
     }
 
     public static async Task<IResult> UserInfoEndpointDelegate(
@@ -316,6 +332,7 @@ public static class CustomEndpoints
                 }),
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
+
         var userClaims = await userManager.GetClaimsAsync(user);
 
         var claims = new Dictionary<string, object>(StringComparer.Ordinal)
@@ -380,8 +397,8 @@ public static class CustomEndpoints
         ILogger logger)
     {
         var request = httpContext.GetOpenIddictServerRequest() ??
-                    throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
-        
+                      throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+
         if (request.IsPasswordGrantType())
         {
             var user = await userManager.FindByNameAsync(request.Username ?? string.Empty);
@@ -391,7 +408,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "Invalid username or password."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "Invalid username or password."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
@@ -403,7 +421,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The user is no longer allowed to sign in."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The user is no longer allowed to sign in."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
@@ -416,13 +435,14 @@ public static class CustomEndpoints
 
             // Add the claims that will be persisted in the tokens
             identity.SetClaim(Claims.Subject, await userManager.GetUserIdAsync(user))
-                    .SetClaim(Claims.Email, await userManager.GetEmailAsync(user))
-                    .SetClaim(Claims.Name, await userManager.GetUserNameAsync(user))
-                    .SetClaims(Claims.Role, [.. await userManager.GetRolesAsync(user)]);
+                .SetClaim(Claims.Email, await userManager.GetEmailAsync(user))
+                .SetClaim(Claims.Name, await userManager.GetUserNameAsync(user))
+                .SetClaims(Claims.Role, [.. await userManager.GetRolesAsync(user)]);
 
             ClaimsPrincipal principal = new(identity);
             // Set scopes (you might want to validate requested scopes)
             principal.SetScopes(request.GetScopes());
+            principal.SetResources(await scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
 
             // Set destinations for claims
             foreach (var claim in principal.Claims)
@@ -434,11 +454,12 @@ public static class CustomEndpoints
                 principal,
                 authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
-
         else if (request.IsAuthorizationCodeGrantType() || request.IsRefreshTokenGrantType())
         {
             // Retrieve the claims principal stored in the authorization code/device code/refresh token.
-            var principal = (await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)).Principal;
+            var principal =
+                (await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme))
+                .Principal;
 
             // Retrieve the user profile corresponding to the authorization code/refresh token.
             // Note: if you want to automatically invalidate the authorization code/refresh token
@@ -451,7 +472,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The token is no longer valid."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The token is no longer valid."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
@@ -463,7 +485,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The user is no longer allowed to sign in."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The user is no longer allowed to sign in."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
@@ -475,11 +498,13 @@ public static class CustomEndpoints
                     claim.SetDestinations(GetDestinations(claim, principal));
                 }
 
+                principal.SetResources(await scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
+
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
-                return Results.SignIn(principal, authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                return Results.SignIn(principal,
+                    authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
         }
-
         else if (request.IsClientCredentialsGrantType())
         {
             var result = await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -489,7 +514,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidClient,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "Client authentication failed."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "Client authentication failed."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
@@ -504,7 +530,8 @@ public static class CustomEndpoints
                     properties: new AuthenticationProperties(new Dictionary<string, string?>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidScope,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The specified scopes are not valid."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The specified scopes are not valid."
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
@@ -521,10 +548,14 @@ public static class CustomEndpoints
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
 
-            var identity = new ClaimsIdentity(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            var identity = new ClaimsIdentity(
+                authenticationType: TokenValidationParameters.DefaultAuthenticationType,
+                nameType: Claims.Name,
+                roleType: Claims.Role);
 
             // Subject (sub) is a required field, we use the client id as the subject identifier here.
-            identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
+            identity.SetClaim(Claims.Subject, await applicationManager.GetClientIdAsync(application));
+            identity.SetClaim(Claims.Name, await applicationManager.GetDisplayNameAsync(application));
 
             // Add Claims Applied to Client
             foreach (var (type, values) in await applicationManager.GetClaimValuesDictionary(application))
@@ -535,7 +566,7 @@ public static class CustomEndpoints
             ClaimsPrincipal principal = new(identity);
 
             principal.SetScopes(request.GetScopes());
-            principal.SetResources(request.GetScopes());
+            principal.SetResources(await scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
 
             foreach (var claim in principal.Claims)
             {
@@ -547,12 +578,69 @@ public static class CustomEndpoints
                 properties: null,
                 authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
+        else if (request.IsDeviceCodeGrantType())
+        {
+            // Retrieve the claims principal stored in the device code
+            var principal =
+                (await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme))
+                .Principal;
+
+            if (principal == null)
+            {
+                return Results.Forbid(
+                    properties: new AuthenticationProperties(new Dictionary<string, string?>
+                    {
+                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The device code is not valid or has expired."
+                    }),
+                    authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+            }
+
+            // Retrieve the user profile corresponding to the device code
+            var user = await userManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                return Results.Forbid(
+                    properties: new AuthenticationProperties(new Dictionary<string, string?>
+                    {
+                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The device code is not associated with a valid user."
+                    }),
+                    authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+            }
+
+            // Ensure the user is still allowed to sign in
+            if (!await signInManager.CanSignInAsync(user))
+            {
+                return Results.Forbid(
+                    properties: new AuthenticationProperties(new Dictionary<string, string?>
+                    {
+                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                            "The user is no longer allowed to sign in."
+                    }),
+                    authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+            }
+
+            foreach (var claim in principal.Claims)
+            {
+                claim.SetDestinations(GetDestinations(claim, principal));
+            }
+
+            principal.SetResources(await scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
+
+            return Results.SignIn(principal,
+                authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        }
 
         return Results.Forbid(
             properties: new AuthenticationProperties(new Dictionary<string, string?>
             {
                 [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The specified grant is not supported."
+                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                    "The specified grant is not supported."
             }),
             authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
     }
@@ -570,7 +658,8 @@ public static class CustomEndpoints
             return Results.LocalRedirect("/Account/Logout");
         }
 
-        var applications = await applicationManager.FindByPostLogoutRedirectUriAsync(request.PostLogoutRedirectUri).ToListAsync();
+        var applications = await applicationManager.FindByPostLogoutRedirectUriAsync(request.PostLogoutRedirectUri)
+            .ToListAsync();
 
         if (applications.FirstOrDefault() is { } application)
         {
@@ -583,6 +672,7 @@ public static class CustomEndpoints
     }
 
     public static async Task<IResult> LogoutPostEndpointDelegate(
+        [FromForm] IFormCollection parameters,
         SignInManager<IdentityUserEntity> signInManager,
         ILogger logger)
     {
@@ -599,6 +689,124 @@ public static class CustomEndpoints
             authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
     }
 
+    public static async Task<IResult> VerifyGetEndpointDelegate(
+        HttpContext httpContext,
+        IOpenIddictApplicationManager applicationManager,
+        ILogger logger)
+    {
+        var result = await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+
+        if (result is { Succeeded: true } && !string.IsNullOrEmpty(result.Principal.GetClaim(Claims.ClientId)))
+        {
+            var application =
+                await applicationManager.FindByClientIdAsync(result.Principal.GetClaim(Claims.ClientId)!) ??
+                throw new InvalidOperationException(
+                    "Details concerning the calling client application cannot be found.");
+
+            var clientId = await applicationManager.GetClientIdAsync(application);
+            var scope = string.Join(" ", result.Principal.GetScopes());
+            var userCode = result.Properties!.GetTokenValue(OpenIddictServerAspNetCoreConstants.Tokens.UserCode);
+
+            return Results.LocalRedirect($"/Account/Verify?user_code={userCode}&clientId={clientId}&scope={scope}");
+        }
+        else if (!string.IsNullOrEmpty(result.Properties!.GetTokenValue(OpenIddictServerAspNetCoreConstants.Tokens.UserCode)))
+        {
+            const string error = Errors.InvalidToken;
+            const string errorDescription =
+                "The specified user code is not valid. Please make sure you typed it correctly.";
+
+            return Results.LocalRedirect($"/Account/Verify?error={error}&error_description={errorDescription}");
+        }
+
+        return Results.LocalRedirect($"/Account/Verify");
+    }
+
+    public static async Task<IResult> VerifyPostEndpointDelegate(
+        [FromForm] VerifyModel? model,
+        HttpContext httpContext,
+        HttpRequest httpRequest,
+        UserManager<IdentityUserEntity> userManager,
+        IOpenIddictApplicationManager applicationManager,
+        IOpenIddictScopeManager scopeManager,
+        ILogger logger)
+    {
+        if (model is not { Agreement: true })
+        {
+            return Results.Forbid(
+                properties: new AuthenticationProperties
+                {
+                    // This property points to the address OpenIddict will automatically
+                    // redirect the user to after rejecting the authorization demand.
+                    RedirectUri = "/"
+                },
+                authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+        }
+
+        var request = httpContext.GetOpenIddictServerRequest();
+        if (request == null)
+        {
+            return Results.BadRequest("Invalid request.");
+        }
+
+        var result = await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        if (!result.Succeeded)
+        {
+            return Results.Challenge(
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = httpRequest.PathBase + httpRequest.Path + httpRequest.QueryString
+                },
+                authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+        }
+
+        var user = await userManager.GetUserAsync(httpContext.User);
+        if (user == null)
+        {
+            return Results.Challenge(
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = httpRequest.PathBase + httpRequest.Path + httpRequest.QueryString
+                },
+                authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+        }
+
+        var identity = new ClaimsIdentity(
+            authenticationType: TokenValidationParameters.DefaultAuthenticationType,
+            nameType: Claims.Name,
+            roleType: Claims.Role);
+
+        // Add the claims that will be persisted in the tokens.
+        identity.SetClaim(Claims.Subject, await userManager.GetUserIdAsync(user))
+            .SetClaim(Claims.Email, await userManager.GetEmailAsync(user))
+            .SetClaim(Claims.Name, await userManager.GetUserNameAsync(user))
+            .SetClaim(Claims.PreferredUsername, await userManager.GetUserNameAsync(user))
+            .SetClaims(Claims.Role, [.. (await userManager.GetRolesAsync(user))]);
+
+        ClaimsPrincipal principal = new(identity);
+
+        // Note: in this sample, the granted scopes match the requested scope, but
+        // you may want to allow the user to uncheck specific scopes.
+        // For that, restrict the list of scopes before calling SetScopes.
+        principal.SetScopes(request.GetScopes());
+        principal.SetResources(await scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
+
+        foreach (var claim in principal.Claims)
+        {
+            claim.SetDestinations(GetDestinations(claim, principal));
+        }
+
+        var properties = new AuthenticationProperties
+        {
+            // This property points to the address OpenIddict will automatically
+            // redirect the user to after validating the authorization demand.
+            RedirectUri = "/"
+        };
+
+        logger.LogInformation("Device verification completed for user {UserId}", user.Id);
+
+        return Results.SignIn(principal, properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+    }
+
     private static IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
     {
         switch (claim.Type)
@@ -610,6 +818,7 @@ public static class CustomEndpoints
                     yield return Destinations.IdentityToken;
                 }
                 yield break;
+            
             case Claims.Email:
                 yield return Destinations.AccessToken;
                 if (principal.HasScope(Scopes.Email))
@@ -617,6 +826,7 @@ public static class CustomEndpoints
                     yield return Destinations.IdentityToken;
                 }
                 yield break;
+            
             case Claims.Role:
                 yield return Destinations.AccessToken;
                 if (principal.HasScope(Scopes.Roles))
@@ -624,11 +834,12 @@ public static class CustomEndpoints
                     yield return Destinations.IdentityToken;
                 }
                 yield break;
+            
             case "AspNet.Identity.SecurityStamp": yield break;
+            
             default:
                 yield return Destinations.AccessToken;
                 yield break;
         }
     }
-
 }

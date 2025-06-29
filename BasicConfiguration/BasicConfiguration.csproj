@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="IdentitySuite" Version="1.0.0-rc.4" />
-      <PackageReference Include="IdentitySuite.EntityFrameworkCore.SqlServer" Version="1.0.0-rc.4" />
+      <PackageReference Include="IdentitySuite" Version="1.0.0" />
+      <PackageReference Include="IdentitySuite.EntityFrameworkCore.SqlServer" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>

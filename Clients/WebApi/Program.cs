@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Validation.AspNetCore;
 using Polly;
+using WebApi.Models;
 using WebApi.Policies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,7 @@ builder.Services
         options.UseIntrospection()
                .SetIssuer(builder.Configuration.GetValue<string>("oidc:Authority")!)
                .AddAudiences(builder.Configuration.GetValue<string>("oidc:Audience")!)
-               .SetClientId(builder.Configuration.GetValue<string>("oidc:Audience")!)
+               .SetClientId(builder.Configuration.GetValue<string>("oidc:ClientId")!)
                .SetClientSecret(builder.Configuration.GetValue<string>("oidc:Secret")!);
 
         // Register the System.Net.Http integration.
@@ -85,9 +86,4 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 }).RequireAuthorization();
 
-app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+await app.RunAsync();
