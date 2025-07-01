@@ -41,7 +41,7 @@ The project in the `AdvancedConfiguration` folder demonstrates how to customize 
 
 ## Using Clients
 
-You can use the clients in the `Client` folder to test the IdentitySuite server. Each client has its own configuration and can run independently or simultaneously. Each client has the ability to call the `WebAPI` server (weatherforecast endpoint) to verify that authentication is working.
+You can use the clients in the `Client` folder to test the IdentitySuite server. Each client has its own configuration and can run independently or simultaneously (according to your license). Each client has the ability to call the `WebAPI` server (weatherforecast endpoint) to verify that authentication is working.
 
 ## 📚 Documentation & Commercial Options
 
