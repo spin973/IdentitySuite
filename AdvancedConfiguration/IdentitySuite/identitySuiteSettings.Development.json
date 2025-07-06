@@ -3,8 +3,8 @@
     "Database": {
       "ConnectionStrings": {
         "SqlServerConnection": "Server=(localdb)\\mssqllocaldb;Database=IdentitySuiteDb.Advanced;Trusted_Connection=True;MultipleActiveResultSets=true",
-        "PostgreSqlConnection": null,
-        "MySqlConnection": "server=localhost;port3306;database=identitySuiteDb;user=**username**;password=**password**"
+        "PostgreSqlConnection": "",
+        "MySqlConnection": ""
       },
       "Initialize": false,
       "ApplyMigrations": false
@@ -40,15 +40,18 @@
         "email",
         "roles"
       ],
+      "Claims": [],
       "Audiences": [
         "webapi"
       ],
       "FlowConfiguration": {
         "AllowAuthorizationCodeFlow": true,
+        "AllowHybridFlow": false,
         "AllowClientCredentialsFlow": true,
         "AllowRefreshTokenFlow": true,
         "AllowPasswordFlow": true,
         "AllowDeviceAuthorizationFlow": true,
+        "AllowImplicitFlow": false,
         "RequireProofKeyForCodeExchange": true,
         "RequirePushedAuthorizationRequests": false,
         "EnableUserInfoEndpoint": true,
@@ -73,6 +76,14 @@
         "UserCodeLifetime": "00:10:00",
         "DeviceCodeLifetime": "00:30:00",
         "RefreshTokenLifetime": "14.00:00:00"
+      },
+      "ValidationConfiguration": {
+        "EnableAuthorizationEntryValidation": false,
+        "EnableTokenEntryValidation": false
+      },
+      "Certificates": {
+        "SigningCertificatePath": "",
+        "EncryptionCertificatePath": ""
       }
     },
     "IdentityOptions": {
@@ -87,7 +98,7 @@
       "DefaultLockoutTimeSpanInMinutes": 5,
       "MaxFailedAccessAttempts": 5,
       "RequireUniqueEmail": true,
-      "AllowedUserNameRegex": "^[a-zA-Z0-9]\u002B([._-][a-zA-Z0-9]\u002B)*$",
+      "AllowedUserNameRegex": "^[a-zA-Z0-9]\u002B([._+-][a-zA-Z0-9]\u002B)*$",
       "RequireConfirmedEmail": true,
       "RequireConfirmedAccount": false,
       "RequireConfirmedPhoneNumber": false,

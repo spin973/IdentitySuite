@@ -39,13 +39,16 @@
         "profile",
         "email"
       ],
+      "Claims": [],
       "Audiences": [],
       "FlowConfiguration": {
         "AllowAuthorizationCodeFlow": true,
+        "AllowHybridFlow": false,
         "AllowClientCredentialsFlow": false,
         "AllowRefreshTokenFlow": true,
         "AllowPasswordFlow": false,
         "AllowDeviceAuthorizationFlow": false,
+        "AllowImplicitFlow": false,
         "RequireProofKeyForCodeExchange": true,
         "RequirePushedAuthorizationRequests": true,
         "EnableUserInfoEndpoint": true,
@@ -71,6 +74,10 @@
         "DeviceCodeLifetime": "00:30:00",
         "RefreshTokenLifetime": "14.00:00:00"
       },
+      "ValidationConfiguration": {
+        "EnableAuthorizationEntryValidation": false,
+        "EnableTokenEntryValidation": false
+      },
       "Certificates": {
         "SigningCertificatePath": "",
         "EncryptionCertificatePath": ""
@@ -87,7 +94,7 @@
       "AllowedForNewUsers": true,
       "DefaultLockoutTimeSpanInMinutes": 5,
       "MaxFailedAccessAttempts": 5,
-      "AllowedUserNameRegex": "^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*$",
+      "AllowedUserNameRegex": "^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*$",
       "RequireUniqueEmail": true,
       "RequireConfirmedEmail": true,
       "RequireConfirmedAccount": false,
