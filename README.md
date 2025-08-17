@@ -54,3 +54,24 @@ For **documentation** and **commercial licensing**, visit our official website:
 For documentation, please refer to the [IdentitySuite documentation](https://identitysuite.net/documentation). The documentation provides detailed information on how to use the library, including configuration, usage examples, and advanced features.
 
 For issues or questions, open an [issue](https://github.com/spin973/IdentitySuite/issues) on GitHub.
+
+## What's New in Version 1.1.0
+
+Version 1.1.0 introduces several major improvements:
+
+- 🚀 **Configurable Rate Limiting**: Added rate limiting for all endpoints with real-time metrics dashboard
+- ⚙️ **Extended Configuration Options**: New OpenIddict settings for advanced scenarios:
+  - Data protection configuration (enable/disable)
+  - Access token encryption settings (enable/disable)
+- ✅ **Standards Compliance**: Overhauled all OIDC/OAuth2 endpoints for full OpenID Connect certification readiness
+
+## Upgrade from version 1.0.x to 1.1.0
+
+When upgrading from version 1.0.x to 1.1.0, follow these steps:
+
+1. **Before updating the package**:
+   - Modify your application configuration by enabling the `Apply migrations` option located in the `Database Settings` section of the `General` menu
+   - This is necessary because the database structure has changed and migrations need to be applied
+
+2. Update the IdentitySuite package to version 1.1.0
+3. Run your application - the migrations will be applied automatically
