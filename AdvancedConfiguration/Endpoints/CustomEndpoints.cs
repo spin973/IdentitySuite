@@ -4,6 +4,7 @@ using IdentitySuite.Core.Models.Endpoints;
 using IdentitySuite.Core.Services.Interfaces;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,6 @@ public static class CustomEndpoints
         HttpContext httpContext,
         HttpRequest httpRequest,
         UserManager<IdentityUserEntity> userManager,
-        SignInManager<IdentityUserEntity> signInManager,
         ISessionClientDataService sessionClientData,
         IOpenIddictScopeManager scopeManager,
         IOpenIddictAuthorizationManager authorizationManager,
@@ -182,7 +182,7 @@ public static class CustomEndpoints
             case ConsentTypes.Implicit:
             case ConsentTypes.External when authorizations.Count > 0:
             case ConsentTypes.Explicit when authorizations.Count > 0 && !request.HasPromptValue(PromptValues.Consent):
-                var principal = await signInManager.CreateUserPrincipalAsync(user);
+                var principal = result.Principal!;
 
                 principal.SetScopes(request.GetScopes());
                 principal.SetResources(await scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
@@ -224,9 +224,8 @@ public static class CustomEndpoints
     }
 
     public static async Task<IResult> ConsentEndpointDelegate(
-        [FromForm] ConsentModel? model,
         HttpContext httpContext,
-        ClaimsPrincipal claimsPrincipal,
+        HttpRequest httpRequest,
         UserManager<IdentityUserEntity> userManager,
         SignInManager<IdentityUserEntity> signInManager,
         IOpenIddictScopeManager scopeManager,
@@ -234,14 +233,17 @@ public static class CustomEndpoints
         IOpenIddictAuthorizationManager authorizationManager,
         ILogger logger)
     {
+        var submitAction = httpRequest.Form["submit.Accept"].FirstOrDefault();
+        var submitDeny = httpRequest.Form["submit.Deny"].FirstOrDefault();
+
         var request = httpContext.GetOpenIddictServerRequest() ?? 
                       throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
         // Retrieve the profile of the logged-in user.
-        var user = await userManager.GetUserAsync(claimsPrincipal) ?? 
+        var user = await userManager.GetUserAsync(httpContext.User) ?? 
                    throw new InvalidOperationException("The user details cannot be retrieved.");
-        
-        if (model is not { Agreement: true })
+
+        if (!string.IsNullOrEmpty(submitDeny) || string.IsNullOrEmpty(submitAction))
         {
             logger.LogInformation("User {User} has rejected consent.", user.Id);
             
@@ -316,14 +318,28 @@ public static class CustomEndpoints
     }
 
     public static async Task<IResult> UserInfoEndpointDelegate(
-        ClaimsPrincipal claimsPrincipal,
+        HttpContext httpContext,
         UserManager<IdentityUserEntity> userManager,
         ILogger logger)
     {
-        var user = await userManager.GetUserAsync(claimsPrincipal);
+        var result = await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        var principal = result.Principal;
+
+        if (principal is null)
+        {
+            return Results.Forbid(
+                properties: new AuthenticationProperties(new Dictionary<string, string?>
+                {
+                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidToken,
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The access token was rejected."
+                }),
+                authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+        }
+
+        var user = await userManager.GetUserAsync(principal);
         if (user is null)
         {
-            return Results.Challenge(
+            return Results.Forbid(
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
                 {
                     [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidToken,
@@ -356,7 +372,7 @@ public static class CustomEndpoints
             claims[Claims.Name] = $"{user.FirstName} {user.LastName}";
         }
 
-        if (claimsPrincipal.HasScope(Scopes.Address))
+        if (principal.HasScope(Scopes.Address))
         {
             claims[Claims.Address] = JsonSerializer.Serialize(new
             {
@@ -367,17 +383,17 @@ public static class CustomEndpoints
             });
         }
 
-        if (claimsPrincipal.HasScope(Scopes.Phone))
+        if (principal.HasScope(Scopes.Phone))
         {
             claims[Claims.PhoneNumber] = await userManager.GetPhoneNumberAsync(user) ?? string.Empty;
         }
 
-        if (claimsPrincipal.HasScope(Scopes.Email))
+        if (principal.HasScope(Scopes.Email))
         {
             claims[Claims.Email] = await userManager.GetEmailAsync(user) ?? string.Empty;
         }
 
-        if (claimsPrincipal.HasScope(Scopes.Roles))
+        if (principal.HasScope(Scopes.Roles))
         {
             claims[Claims.Role] = await userManager.GetRolesAsync(user);
         }
@@ -722,7 +738,6 @@ public static class CustomEndpoints
     }
 
     public static async Task<IResult> VerifyPostEndpointDelegate(
-        [FromForm] VerifyModel? model,
         HttpContext httpContext,
         HttpRequest httpRequest,
         UserManager<IdentityUserEntity> userManager,
@@ -730,7 +745,10 @@ public static class CustomEndpoints
         IOpenIddictScopeManager scopeManager,
         ILogger logger)
     {
-        if (model is not { Agreement: true })
+        var submitAction = httpRequest.Form["submit.Accept"].FirstOrDefault();
+        var submitDeny = httpRequest.Form["submit.Deny"].FirstOrDefault();
+
+        if (!string.IsNullOrEmpty(submitDeny) || string.IsNullOrEmpty(submitAction))
         {
             return Results.Forbid(
                 properties: new AuthenticationProperties
