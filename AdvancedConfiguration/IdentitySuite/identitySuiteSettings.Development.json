@@ -32,6 +32,35 @@
       "AllowCredentials": false,
       "PreflightMaxAge": 600
     },
+    "RateLimiting": {
+      "Enabled": false,
+      "EnableMetrics": false,
+      "Policies": {
+        "oidc-critical-endpoints": {
+          "PermitLimit": 20,
+          "SegmentsPerWindow": 10,
+          "Window": "00:05:00",
+          "QueueLimit": 0,
+          "AutoReplenishment": true
+        },
+        "oidc-default-endpoints": {
+          "PermitLimit": 60,
+          "SegmentsPerWindow": 10,
+          "Window": "00:05:00",
+          "QueueLimit": 0,
+          "AutoReplenishment": true
+        },
+        "global-endpoints": {
+          "PermitLimit": 100,
+          "SegmentsPerWindow": 5,
+          "Window": "00:05:00",
+          "QueueLimit": 0,
+          "AutoReplenishment": true
+        }
+      },
+      "WhitelistedIPs": [],
+      "BlacklistedIPs": []
+    },
     "LoginProviders": [],
     "OpenIddictOptions": {
       "Scopes": [
@@ -81,9 +110,13 @@
         "EnableAuthorizationEntryValidation": false,
         "EnableTokenEntryValidation": false
       },
-      "Certificates": {
-        "SigningCertificatePath": "",
-        "EncryptionCertificatePath": ""
+      "SecuritySettings": {
+        "UseDataProtection": true,
+        "EnableAccessTokenEncryption": true,
+        "Certificates": {
+          "SigningCertificatePath": "",
+          "EncryptionCertificatePath": ""
+        }
       }
     },
     "IdentityOptions": {
