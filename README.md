@@ -60,3 +60,7 @@ For issues or questions, open an [issue](https://github.com/spin973/IdentitySuit
 - [What's New](https://identitysuite.net/documentation/WhatsNew)
 - [Upgrade documentations](https://identitysuite.net/documentation/Migrations)
 - [Changelog](https://identitysuite.net/documentation/ChangeLog)
+
+## ⚖️ License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
