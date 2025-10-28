@@ -11,8 +11,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="IdentitySuite" Version="1.1.1" />
-      <PackageReference Include="IdentitySuite.EntityFrameworkCore.SqlServer" Version="1.1.1" />
+      <PackageReference Include="IdentitySuite" Version="1.1.2" />
+      <PackageReference Include="IdentitySuite.EntityFrameworkCore.SqlServer" Version="1.1.2" />
     </ItemGroup>
 
 </Project>

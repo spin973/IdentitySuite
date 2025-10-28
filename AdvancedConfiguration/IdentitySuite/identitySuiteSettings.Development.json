@@ -131,7 +131,7 @@
       "DefaultLockoutTimeSpanInMinutes": 5,
       "MaxFailedAccessAttempts": 5,
       "RequireUniqueEmail": true,
-      "AllowedUserNameRegex": "^[a-zA-Z0-9]\u002B([._+-][a-zA-Z0-9]\u002B)*$",
+      "AllowedUserNameRegex": "^[a-zA-Z0-9]\u002B([._\u002B-][a-zA-Z0-9]\u002B)*$",
       "RequireConfirmedEmail": true,
       "RequireConfirmedAccount": false,
       "RequireConfirmedPhoneNumber": false,

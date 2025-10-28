@@ -40,10 +40,8 @@ builder.Services.AddAuthentication(options =>
 
         options.TokenValidationParameters.NameClaimType = "name";
         options.TokenValidationParameters.RoleClaimType = "role";
-
-        options.ClaimActions.MapUniqueJsonKey(ClaimTypes.Surname, ClaimTypes.Surname);
-        options.ClaimActions.MapUniqueJsonKey(ClaimTypes.GivenName, ClaimTypes.GivenName);
-        options.ClaimActions.MapUniqueJsonKey(ClaimTypes.Name, ClaimTypes.Name);
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.MapInboundClaims = false;
 
         options.AccessDeniedPath = "/";
     });

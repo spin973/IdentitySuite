@@ -6,6 +6,7 @@ using BlazorClient.Shared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Security.Claims;
 
@@ -37,11 +38,10 @@ builder.Services.AddAuthentication(options =>
     options.UsePkce = true;
     options.AuthenticationMethod = OpenIdConnectRedirectBehavior.RedirectGet;
     options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.UseIfAvailable;
-    options.TokenValidationParameters.NameClaimType = ClaimTypes.NameIdentifier;
-    options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
+    options.TokenValidationParameters.RoleClaimType = "role";
+    options.TokenValidationParameters.NameClaimType = "name";
     options.GetClaimsFromUserInfoEndpoint = true;
-    options.MapInboundClaims = true;
-    options.ClaimActions.MapAll();
+    options.MapInboundClaims = false;
 
     //options.Events.OnRedirectToIdentityProvider = context =>
     //{

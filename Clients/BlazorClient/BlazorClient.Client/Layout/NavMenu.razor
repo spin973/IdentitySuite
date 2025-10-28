@@ -42,7 +42,7 @@
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@returnUrl">
                         <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> 
-                        @(context.User.Claims.FirstOrDefault(p => p.Type == "email")?.Value ?? context.User.Identity?.Name)
+                        @(context.User.Claims.FirstOrDefault(p => p.Type == "email")?.Value ?? context.User.Claims.FirstOrDefault(p => p.Type == "name")?.Value ?? context.User.Identity?.Name)
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
