@@ -2,7 +2,7 @@
   "IdentitySuiteOptions": {
     "Database": {
       "ConnectionStrings": {
-        "SqlServerConnection": "Server=(localdb)\\mssqllocaldb;Database=IdentitySuiteDb.Advanced;Trusted_Connection=True;MultipleActiveResultSets=true",
+        "SqlServerConnection": "Server=(localdb)\\mssqllocaldb;Database=IdentitySuiteDbV2.Advanced;Trusted_Connection=True;MultipleActiveResultSets=true",
         "PostgreSqlConnection": "",
         "MySqlConnection": ""
       },
@@ -114,8 +114,23 @@
         "UseDataProtection": true,
         "EnableAccessTokenEncryption": true,
         "Certificates": {
-          "SigningCertificatePath": "",
-          "EncryptionCertificatePath": ""
+          "Mode": "Builtin",
+          "Signing": {
+            "ForceRotation": false,
+            "Source": "FileSystem",
+            "Thumbprint": "",
+            "StoreLocation": "CurrentUser",
+            "StoreName": "My"
+          },
+          "Encryption": {
+            "ForceRotation": false,
+            "Source": "FileSystem",
+            "Thumbprint": "",
+            "StoreLocation": "CurrentUser",
+            "StoreName": "My"
+          },
+          "ExpiredCertificates": [],
+          "CertificateExpiryAlertThresholdDays": 7
         }
       }
     },
@@ -137,9 +152,11 @@
       "RequireConfirmedPhoneNumber": false,
       "ProtectPersonalData": false,
       "MaxLengthForKeys": 0,
-      "EnableUserRegistration": true
+      "EnableUserRegistration": true,
+      "EnablePasskeyLogin": true,
+      "EnableSocialLogin": true
     },
-    "LicenseKey": "",
-    "GoogleFontKey": ""
+    "GoogleFontKey": "",
+    "LicenseKey": ""
   }
 }

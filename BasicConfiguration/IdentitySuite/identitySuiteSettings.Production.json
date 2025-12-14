@@ -3,7 +3,7 @@
     "Database": {
       "ConnectionStrings": {
         "SqlServerConnection": "",
-        "PostgreSQLConnection": "",
+        "PostgreSqlConnection": "",
         "MySqlConnection": ""
       },
       "Initialize": false,
@@ -111,8 +111,24 @@
         "UseDataProtection": true,
         "EnableAccessTokenEncryption": true,
         "Certificates": {
-          "SigningCertificatePath": "",
-          "EncryptionCertificatePath": ""
+          "Mode": "Builtin",
+          "Signing": {
+            "ForceRotation": false,
+            "Source": "FileSystem",
+            "Thumbprint": "",
+            "StoreLocation": "CurrentUser",
+            "StoreName": "My"
+          },
+          "Encryption": {
+            "ForceRotation": false,
+            "Source": "FileSystem",
+            "Thumbprint": "",
+            "StoreLocation": "CurrentUser",
+            "StoreName": "My"
+          },
+          "ExpiredCertificates": [],
+          "NotifyEmail": "",
+          "CertificateExpiryAlertThresholdDays": 7
         }
       }
     },
@@ -134,6 +150,8 @@
       "RequireConfirmedPhoneNumber": false,
       "ProtectPersonalData": false,
       "EnableUserRegistration": true,
+      "EnableSocialLogin": true,
+      "EnablePasskeyLogin": true,
       "MaxLengthForKeys": 0
     },
     "LicenseKey": "",

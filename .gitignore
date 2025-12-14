@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /AdvancedConfiguration/IdentitySuite/Resources/clients/css/mvc-client.min.css
 /BasicConfiguration/IdentitySuite/Resources/clients/css/mvc-client.min.css
+/AdvancedConfiguration/Certificates/.schedule
+/BasicConfiguration/Certificates/.schedule

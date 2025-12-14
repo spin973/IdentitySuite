@@ -1,10 +1,8 @@
-﻿using IdentitySuite.Core.Data.Entities;
+﻿using IdentitySuite.Abstractions.Data.Entities;
+using IdentitySuite.Abstractions.Interfaces;
 using IdentitySuite.Core.Extensions;
-using IdentitySuite.Core.Models.Endpoints;
-using IdentitySuite.Core.Services.Interfaces;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -236,17 +234,17 @@ public static class CustomEndpoints
         var submitAction = httpRequest.Form["submit.Accept"].FirstOrDefault();
         var submitDeny = httpRequest.Form["submit.Deny"].FirstOrDefault();
 
-        var request = httpContext.GetOpenIddictServerRequest() ?? 
+        var request = httpContext.GetOpenIddictServerRequest() ??
                       throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
         // Retrieve the profile of the logged-in user.
-        var user = await userManager.GetUserAsync(httpContext.User) ?? 
+        var user = await userManager.GetUserAsync(httpContext.User) ??
                    throw new InvalidOperationException("The user details cannot be retrieved.");
 
         if (!string.IsNullOrEmpty(submitDeny) || string.IsNullOrEmpty(submitAction))
         {
             logger.LogInformation("User {User} has rejected consent.", user.Id);
-            
+
             return Results.Forbid(
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
                 {
@@ -256,9 +254,9 @@ public static class CustomEndpoints
                 }),
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
-        
+
         // Retrieve the application details from the database.
-        var application = await applicationManager.FindByClientIdAsync(request.ClientId ?? string.Empty) ?? 
+        var application = await applicationManager.FindByClientIdAsync(request.ClientId ?? string.Empty) ??
                           throw new InvalidOperationException(
                               "Details concerning the calling client application cannot be found.");
 
@@ -311,7 +309,7 @@ public static class CustomEndpoints
         {
             claim.SetDestinations(GetDestinations(claim, principal));
         }
-        
+
         logger.LogInformation("User {User} has granted consent.", user.Id);
         // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
         return Results.SignIn(principal, authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -836,7 +834,7 @@ public static class CustomEndpoints
                     yield return Destinations.IdentityToken;
                 }
                 yield break;
-            
+
             case Claims.Email:
                 yield return Destinations.AccessToken;
                 if (principal.HasScope(Scopes.Email))
@@ -844,7 +842,7 @@ public static class CustomEndpoints
                     yield return Destinations.IdentityToken;
                 }
                 yield break;
-            
+
             case Claims.Role:
                 yield return Destinations.AccessToken;
                 if (principal.HasScope(Scopes.Roles))
@@ -852,9 +850,9 @@ public static class CustomEndpoints
                     yield return Destinations.IdentityToken;
                 }
                 yield break;
-            
+
             case "AspNet.Identity.SecurityStamp": yield break;
-            
+
             default:
                 yield return Destinations.AccessToken;
                 yield break;
