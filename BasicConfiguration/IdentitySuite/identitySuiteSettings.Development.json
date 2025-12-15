@@ -34,7 +34,6 @@
     },
     "RateLimiting": {
       "Enabled": false,
-      "EnableMetrics": false,
       "Policies": {
         "oidc-critical-endpoints": {
           "PermitLimit": 20,
@@ -59,7 +58,8 @@
         }
       },
       "WhitelistedIPs": [],
-      "BlacklistedIPs": []
+      "BlacklistedIPs": [],
+      "EnableMetrics": false
     },
     "LoginProviders": [],
     "OpenIddictOptions": {
