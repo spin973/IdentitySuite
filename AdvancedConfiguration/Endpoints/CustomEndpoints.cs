@@ -1,5 +1,6 @@
 ﻿using IdentitySuite.Abstractions.Data.Entities;
 using IdentitySuite.Abstractions.Interfaces;
+using IdentitySuite.Abstractions.Interfaces.Entities;
 using IdentitySuite.Core.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
@@ -23,7 +24,7 @@ public static class CustomEndpoints
     public static async Task<IResult> AuthorizeEndpointDelegate(
         HttpContext httpContext,
         HttpRequest httpRequest,
-        UserManager<IdentityUserEntity> userManager,
+        IIdentitySuiteUserService userManager,
         ISessionClientDataService sessionClientData,
         IOpenIddictScopeManager scopeManager,
         IOpenIddictAuthorizationManager authorizationManager,
@@ -224,8 +225,8 @@ public static class CustomEndpoints
     public static async Task<IResult> ConsentEndpointDelegate(
         HttpContext httpContext,
         HttpRequest httpRequest,
-        UserManager<IdentityUserEntity> userManager,
-        SignInManager<IdentityUserEntity> signInManager,
+        IIdentitySuiteUserService userManager,
+        IIdentitySuiteSignInService signInManager,
         IOpenIddictScopeManager scopeManager,
         IOpenIddictApplicationManager applicationManager,
         IOpenIddictAuthorizationManager authorizationManager,
@@ -243,7 +244,7 @@ public static class CustomEndpoints
 
         if (!string.IsNullOrEmpty(submitDeny) || string.IsNullOrEmpty(submitAction))
         {
-            logger.LogInformation("User {User} has rejected consent.", user.Id);
+            logger.LogInformation("User {User} has rejected consent.", user.GetUserId());
 
             return Results.Forbid(
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
@@ -310,14 +311,14 @@ public static class CustomEndpoints
             claim.SetDestinations(GetDestinations(claim, principal));
         }
 
-        logger.LogInformation("User {User} has granted consent.", user.Id);
+        logger.LogInformation("User {User} has granted consent.", user.GetUserId());
         // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
         return Results.SignIn(principal, authenticationScheme: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
     public static async Task<IResult> UserInfoEndpointDelegate(
         HttpContext httpContext,
-        UserManager<IdentityUserEntity> userManager,
+        IIdentitySuiteUserService userManager,
         ILogger logger)
     {
         var result = await httpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -396,7 +397,7 @@ public static class CustomEndpoints
             claims[Claims.Role] = await userManager.GetRolesAsync(user);
         }
 
-        logger.LogInformation("User Id {UserId} is authenticated.", user.Id);
+        logger.LogInformation("User Id {UserId} is authenticated.", user.GetUserId());
         // Note: the complete list of standard claims supported by the OpenID Connect specification
         // can be found here: http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
         return Results.Ok(claims);
@@ -404,8 +405,8 @@ public static class CustomEndpoints
 
     public static async Task<IResult> TokenEndpointDelegate(
         HttpContext httpContext,
-        UserManager<IdentityUserEntity> userManager,
-        SignInManager<IdentityUserEntity> signInManager,
+        IIdentitySuiteUserService userManager,
+        IIdentitySuiteSignInService signInManager,
         IOpenIddictScopeManager scopeManager,
         IOpenIddictApplicationManager applicationManager,
         ILogger logger)
@@ -687,7 +688,7 @@ public static class CustomEndpoints
 
     public static async Task<IResult> LogoutPostEndpointDelegate(
         [FromForm] IFormCollection parameters,
-        SignInManager<IdentityUserEntity> signInManager,
+        IIdentitySuiteSignInService signInManager,
         ILogger logger)
     {
         // Ask ASP.NET Core Identity to delete the local and external cookies created
@@ -738,7 +739,7 @@ public static class CustomEndpoints
     public static async Task<IResult> VerifyPostEndpointDelegate(
         HttpContext httpContext,
         HttpRequest httpRequest,
-        UserManager<IdentityUserEntity> userManager,
+        IIdentitySuiteUserService userManager,
         IOpenIddictApplicationManager applicationManager,
         IOpenIddictScopeManager scopeManager,
         ILogger logger)
@@ -818,7 +819,7 @@ public static class CustomEndpoints
             RedirectUri = "/"
         };
 
-        logger.LogInformation("Device verification completed for user {UserId}", user.Id);
+        logger.LogInformation("Device verification completed for user {UserId}", user.GetUserId());
 
         return Results.SignIn(principal, properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }

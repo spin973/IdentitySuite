@@ -6,11 +6,11 @@
       "DisplayName": "Blazor Client",
       "ClientType": "public",
       "ConsentType": "explicit",
-      "RedirectUris": "[ \"https://localhost:5010/signin-oidc\" ]",
-      "PostLogoutRedirectUris": "[ \"https://localhost:5010/signout-callback-oidc\" ]",
-      "Permissions": "[ \"ept:authorization\", \"ept:end_session\", \"ept:token\", \"ept:pushed_authorization\", \"gt:authorization_code\", \"gt:refresh_token\", \"rst:code\", \"scp:email\", \"scp:profile\", \"scp:roles\", \"scp:Public.Webapi\" ]",
-      "Requirements": "[ \"ft:pkce\", \"ft:par\" ]",
-      "Properties": "{\"urn:net:identitysuite:property:type\":\"1\"}"
+      "RedirectUris": [ "https://localhost:5010/signin-oidc" ],
+      "PostLogoutRedirectUris": [ "https://localhost:5010/signout-callback-oidc" ],
+      "Permissions": [ "ept:authorization", "ept:end_session", "ept:token", "ept:pushed_authorization", "gt:authorization_code", "gt:refresh_token", "rst:code", "scp:email", "scp:profile", "scp:roles", "scp:Public.Webapi" ],
+      "Requirements": [ "ft:pkce", "ft:par" ],
+      "Properties": { "urn:net:identitysuite:property:type": "1" }
     },
     {
       "ApplicationType": "web",
@@ -19,11 +19,11 @@
       "ClientType": "confidential",
       "ClientSecret": "P9gXukEbOIAG1hIU9saNJUnNjU9xvVUC",
       "ConsentType": "explicit",
-      "RedirectUris": "[ \"https://localhost:5012/signin-oidc\" ]",
-      "PostLogoutRedirectUris": "[ \"https://localhost:5012/signout-callback-oidc\" ]",
-      "Permissions": "[ \"ept:authorization\", \"ept:end_session\", \"ept:token\", \"ept:pushed_authorization\", \"gt:authorization_code\", \"gt:refresh_token\", \"rst:code\", \"scp:email\", \"scp:profile\", \"scp:roles\", \"scp:Public.Webapi\" ]",
-      "Requirements": "[ \"ft:pkce\", \"ft:par\" ]",
-      "Properties": "{\"urn:net:identitysuite:property:type\":\"2\"}"
+      "RedirectUris": [ "https://localhost:5012/signin-oidc" ],
+      "PostLogoutRedirectUris": [ "https://localhost:5012/signout-callback-oidc" ],
+      "Permissions": [ "ept:authorization", "ept:end_session", "ept:token", "ept:pushed_authorization", "gt:authorization_code", "gt:refresh_token", "rst:code", "scp:email", "scp:profile", "scp:roles", "scp:Public.Webapi" ],
+      "Requirements": [ "ft:pkce", "ft:par" ],
+      "Properties": { "urn:net:identitysuite:property:type": "2" }
     },
     {
       "ApplicationType": "native",
@@ -32,8 +32,8 @@
       "ClientType": "confidential",
       "ClientSecret": "jjykabZuS6kZGBeoG9wIpUKLFtBk9Fdb",
       "ConsentType": "implicit",
-      "Permissions": "[ \"ept:token\", \"gt:client_credentials\", \"scp:Public.Webapi\" ]",
-      "Properties": "{\"urn:net:identitysuite:property:type\":\"4\"}"
+      "Permissions": [ "ept:token", "gt:client_credentials", "scp:Public.Webapi" ],
+      "Properties": { "urn:net:identitysuite:property:type": "4" }
     },
     {
       "ApplicationType": "web",
@@ -41,8 +41,8 @@
       "DisplayName": "Device Client",
       "ClientType": "public",
       "ConsentType": "explicit",
-      "Permissions": "[ \"ept:token\", \"ept:device_authorization\", \"gt:urn:ietf:params:oauth:grant-type:device_code\", \"gt:refresh_token\", \"scp:email\", \"scp:profile\", \"scp:roles\" ]",
-      "Properties": "{\"urn:net:identitysuite:property:type\":\"5\"}"
+      "Permissions": [ "ept:token", "ept:device_authorization", "gt:urn:ietf:params:oauth:grant-type:device_code", "gt:refresh_token", "scp:email", "scp:profile", "scp:roles" ],
+      "Properties": { "urn:net:identitysuite:property:type": "5" }
     }
   ],
   "Resources": [
@@ -52,7 +52,7 @@
       "ClientSecret": "4idA/xezo0qcB86bwk7SXQ==",
       "DisplayName": "WebApi",
       "ResourceName": "Public.Webapi",
-      "Permissions": "[\"ept:introspection\"]"
+      "Permissions": [ "ept:introspection" ]
     }
   ],
   "Scopes": [
@@ -60,7 +60,7 @@
       "Name": "Public.Webapi",
       "DisplayName": "Public.Webapi",
       "Description": "Scope Webapi",
-      "Resources": "[\"webapi\"]"
+      "Resources": [ "webapi" ]
     }
   ]
 }
