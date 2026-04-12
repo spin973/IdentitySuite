@@ -1,0 +1,92 @@
+:root {
+	/* Default / globals */
+	--form-default-bg: var(--primary-600);
+	--form-default-color: white;
+	--form-default-font-family: var(--body);
+	/* Card */
+	--form-card-border-color: var(--primary-600);
+	/* Card Header */
+	--form-card-header-bg: var(--primary-600);
+	--form-card-header-color: white;
+	--form-card-header-font-family: var(--heading);
+	/* Card Body */
+	--form-card-body-bg: white;
+	--form-card-body-color: var(--primary-950);
+	--form-card-body-font-family: var(--body);
+	/* Button base */
+	--form-btn-font-family: var(--body);
+	/* Button Primary */
+	--form-btn-primary-bg: var(--primary-600);
+	--form-btn-primary-color: white;
+	--form-btn-primary-border: var(--primary-700);
+	--form-btn-primary-hover-bg: var(--primary-500);
+	--form-btn-primary-hover-color: white;
+	--form-btn-primary-active-bg: var(--primary-700);
+	--form-btn-primary-active-color: white;
+	--form-btn-primary-disabled-bg: var(--primary-300);
+	--form-btn-primary-disabled-color: var(--primary-50);
+	--form-btn-primary-focus-shadow: 0 0 0 0.25rem color-mix(in oklch, var(--primary-600) 25%, transparent);
+	/* Button Outline */
+	--form-btn-outline-bg: white;
+	--form-btn-outline-color: var(--primary-600);
+	--form-btn-outline-border: var(--primary-600);
+	--form-btn-outline-hover-bg: var(--primary-500);
+	--form-btn-outline-hover-color: white;
+	--form-btn-outline-active-bg: var(--primary-700);
+	--form-btn-outline-active-color: white;
+	--form-btn-outline-disabled-bg: var(--primary-100);
+	--form-btn-outline-disabled-color: var(--primary-300);
+	--form-btn-outline-focus-shadow: 0 0 0 0.25rem color-mix(in oklch, var(--primary-600) 25%, transparent);
+	/* Button Login */
+	--form-btn-login-color: var(--primary-600);
+	--form-btn-login-hover-color: var(--primary-500);
+	--form-btn-login-active-color: var(--primary-700);
+	--form-btn-login-disabled-color: var(--primary-300);
+	/* Input */
+	--form-input-bg: white;
+	--form-input-color: var(--primary-950);
+	--form-input-border: var(--primary-500);
+	--form-input-font-family: var(--body);
+	--form-input-focus-shadow: 0 0 0 0.25rem color-mix(in oklch, var(--primary-600) 25%, transparent);
+	/* Link */
+	--form-link-color: var(--primary-950);
+	--form-link-hover-color: var(--primary-500);
+	--form-link-active-color: var(--primary-700);
+	--form-link-font-family: var(--body);
+	/* Validation */
+	--form-validation-font-family: var(--body);
+	/* Switch */
+	--form-switch-border: var(--primary-500);
+	--form-switch-checked-bg: var(--primary-600);
+	--form-switch-focus-shadow: 0 0 0 0.25rem color-mix(in oklch, var(--primary-600) 25%, transparent);
+	/* Nav */
+	--form-nav-font-family: var(--body);
+	--form-nav-active-bg: var(--primary-600);
+	--form-nav-active-color: white;
+	--form-nav-active-border: var(--primary-700);
+	--form-nav-menu-border: var(--primary-500);
+}
+
+.dark {
+	/* Card Body */
+	--form-card-body-bg: var(--dark-800);
+	--form-card-body-color: var(--dark-50);
+	/* Card */
+	--form-card-border-color: var(--dark-600);
+	/* Input */
+	--form-input-bg: var(--dark-700);
+	--form-input-color: var(--dark-50);
+	/* Button Outline */
+	--form-btn-outline-bg: var(--dark-800);
+	--form-btn-outline-color: var(--form-btn-primary-bg);
+	/* Link */
+	--form-link-color: var(--dark-50);
+	/* Alert - leggero scurimento degli sfondi */
+	--form-alert-success-bg: color-mix(in srgb, var(--form-alert-success-bg) 80%, black);
+	--form-alert-warning-bg: color-mix(in srgb, var(--form-alert-warning-bg) 80%, black);
+	--form-alert-danger-bg: color-mix(in srgb, var(--form-alert-danger-bg) 80%, black);
+	/* Switch */
+	--form-input-checkbox-slider-bg: var(--dark-700);
+	/* Nav */
+	--form-nav-active-bg: var(--form-btn-primary-bg);
+}

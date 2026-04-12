@@ -1,0 +1,140 @@
+﻿:root {
+    /* Default / globals */
+    --form-default-bg: #0084d1;
+    --form-default-color: #ffffff;
+    --form-default-border-radius: 0.25rem;
+    --form-default-border-width: 1px;
+    --form-default-font-size: 16px;
+    --form-default-font-weight: normal;
+    --form-default-font-family: Arial;
+    /* Card */
+    --form-card-border-color: #0084d1;
+    --form-card-border-radius: 0.25rem;
+    --form-card-border-width: 1px;
+    --form-card-box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.15);
+    /* Card Header */
+    --form-card-header-bg: #0084d1;
+    --form-card-header-color: #ffffff;
+    --form-card-header-padding: 0.75rem 1rem;
+    --form-card-header-font-size: 20px;
+    --form-card-header-font-weight: bold;
+    --form-card-header-font-family: Arial;
+    /* Card Body */
+    --form-card-body-bg: #ffffff;
+    --form-card-body-color: #0f0f0f;
+    --form-card-body-padding: 0.75rem 1rem;
+    --form-card-body-font-size: 16px;
+    --form-card-body-font-weight: normal;
+    --form-card-body-font-family: Arial;
+    /* Button base */
+    --form-btn-border-radius: 0.25rem;
+    --form-btn-border-width: 1px;
+    --form-btn-font-size: 16px;
+    --form-btn-font-weight: normal;
+    --form-btn-font-family: Arial;
+    --form-btn-padding: 0.5rem 1rem;
+    --form-btn-transition-duration: 0.3s;
+    --form-btn-transition-delay: 0s;
+    --form-btn-transition-timing: ease-in-out;
+    /* Button Primary */
+    --form-btn-primary-bg: #0084d1;
+    --form-btn-primary-color: #ffffff;
+    --form-btn-primary-border: #0084d1;
+    --form-btn-primary-hover-bg: #00a6f4;
+    --form-btn-primary-hover-color: #ffffff;
+    --form-btn-primary-active-bg: #0069a8;
+    --form-btn-primary-active-color: #ffffff;
+    --form-btn-primary-disabled-bg: #74d4ff;
+    --form-btn-primary-disabled-color: #b8e6fe;
+    --form-btn-primary-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
+    /* Button Outline */
+    --form-btn-outline-bg: #ffffff;
+    --form-btn-outline-color: #0084d1;
+    --form-btn-outline-border: #0084d1;
+    --form-btn-outline-hover-bg: #00a6f4;
+    --form-btn-outline-hover-color: #ffffff;
+    --form-btn-outline-active-bg: #0069a8;
+    --form-btn-outline-active-color: #ffffff;
+    --form-btn-outline-disabled-bg: #74d4ff;
+    --form-btn-outline-disabled-color: #b8e6fe;
+    --form-btn-outline-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
+    /* Button Danger */
+    --form-btn-danger-bg: #e7000b;
+    --form-btn-danger-color: #ffffff;
+    --form-btn-danger-border: #e7000b;
+    --form-btn-danger-hover-bg: #fb2c36;
+    --form-btn-danger-hover-color: #ffffff;
+    --form-btn-danger-active-bg: #c10007;
+    --form-btn-danger-active-color: #ffffff;
+    --form-btn-danger-disabled-bg: #ffa2a2;
+    --form-btn-danger-disabled-color: #ffc9c9;
+    --form-btn-danger-focus-shadow: 0 0 0 0.25rem rgba(231, 0, 11, 0.2);
+    /* Button Login */
+    --form-btn-login-color: #0084d1;
+    --form-btn-login-hover-color: #00a6f4;
+    --form-btn-login-active-color: #0069a8;
+    --form-btn-login-disabled-color: #7ebde4;
+    /* Input */
+    --form-input-bg: #ffffff;
+    --form-input-color: #0f0f0f;
+    --form-input-border: #0084d1;
+    --form-input-border-radius: 0.25rem;
+    --form-input-border-width: 1px;
+    --form-input-font-size: 16px;
+    --form-input-font-weight: normal;
+    --form-input-font-family: Arial;
+    --form-input-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
+    --form-input-padding: 0.5rem 0.75rem;
+    /* Link */
+    --form-link-color: #0f0f0f;
+    --form-link-hover-color: #00a6f4;
+    --form-link-active-color: #0069a8;
+    --form-link-font-size: 16px;
+    --form-link-font-weight: normal;
+    --form-link-font-family: Arial;
+    --form-link-font-style: normal;
+    --form-link-text-decoration: none;
+    --form-link-transition-duration: 0.2s;
+    --form-link-transition-delay: 0s;
+    --form-link-transition-timing: ease-in-out;
+    /* Validation */
+    --form-validation-color: #e7000b;
+    --form-validation-font-size: 14px;
+    --form-validation-font-weight: normal;
+    --form-validation-font-family: Arial;
+    --form-validation-font-style: normal;
+    /* Alert base */
+    --form-alert-padding: 0.75rem 1rem;
+    /* Alert Success */
+    --form-alert-success-bg: #dcfce7;
+    --form-alert-success-color: #0d542b;
+    --form-alert-success-border: #7bf1a8;
+    --form-alert-success-border-radius: 0.25rem;
+    --form-alert-success-border-width: 1px;
+    /* Alert Warning */
+    --form-alert-warning-bg: #fef9c2;
+    --form-alert-warning-color: #733e0a;
+    --form-alert-warning-border: #ffdf20;
+    --form-alert-warning-border-radius: 0.25rem;
+    --form-alert-warning-border-width: 1px;
+    /* Alert Danger */
+    --form-alert-danger-bg: #ffe2e2;
+    --form-alert-danger-color: #82181a;
+    --form-alert-danger-border: #ffa2a2;
+    --form-alert-danger-border-radius: 0.25rem;
+    --form-alert-danger-border-width: 1px;
+    /* Switch */
+    --form-switch-border: #0084d1;
+    --form-switch-checked-bg: #0084d1;
+    --form-switch-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
+    /* Nav */
+    --form-nav-font-size: 16px;
+    --form-nav-font-weight: normal;
+    --form-nav-font-family: Arial;
+    --form-nav-active-bg: #0084d1;
+    --form-nav-active-color: #ffffff;
+    --form-nav-active-border: #0084d1;
+    --form-nav-active-border-radius: 0.25rem;
+    --form-nav-active-border-width: 1px;
+    --form-nav-menu-border: #0084d1;
+}
