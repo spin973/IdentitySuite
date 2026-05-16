@@ -1,14 +1,11 @@
 using BlazorClient.Authentication;
-using BlazorClient.Client.Services;
 using BlazorClient.Components;
 using BlazorClient.Services;
 using BlazorClient.Shared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 

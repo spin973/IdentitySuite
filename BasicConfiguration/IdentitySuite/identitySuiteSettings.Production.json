@@ -155,6 +155,21 @@
       "MaxLengthForKeys": 0
     },
     "LicenseKey": "",
-    "GoogleFontKey": ""
+    "GoogleFontKey": "",
+    "Logging": {
+      "MinimumLevel": "Information",
+      "LevelOverrides": {
+        "Microsoft": "Warning",
+        "System": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "Quartz": "Warning",
+        "OpenIddict.Server.OpenIddictServerDispatcher": "Warning",
+        "OpenIddict.Core.OpenIddictTokenManager": "Warning",
+        "OpenIddict.Server.AspNetCore.OpenIddictServerAspNetCoreHandler": "Warning"
+      },
+      "RollingInterval": "Day",
+      "FileSizeLimitBytes": 9437184,
+      "RetainedFileCountLimit": 10
+    }
   }
 }

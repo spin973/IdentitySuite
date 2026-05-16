@@ -22,7 +22,8 @@
       "Host": "",
       "Port": 587,
       "UserName": "",
-      "Password": ""
+      "Password": "",
+      "SendGridUri": "https://api.sendgrid.com"
     },
     "Cors": {
       "AllowedOrigins": [],
@@ -34,7 +35,6 @@
     },
     "RateLimiting": {
       "Enabled": false,
-      "EnableMetrics": false,
       "Policies": {
         "oidc-critical-endpoints": {
           "PermitLimit": 20,
@@ -59,7 +59,8 @@
         }
       },
       "WhitelistedIPs": [],
-      "BlacklistedIPs": []
+      "BlacklistedIPs": [],
+      "EnableMetrics": false
     },
     "LoginProviders": [],
     "OpenIddictOptions": {
@@ -154,9 +155,30 @@
       "MaxLengthForKeys": 0,
       "EnableUserRegistration": true,
       "EnablePasskeyLogin": true,
-      "EnableSocialLogin": true
+      "EnableSocialLogin": true,
+      "DefaultUserGroup": "User",
+      "SoftEmailVerification": false,
+      "EnableEmailAuthenticator": false,
+      "EnablePhoneAuthenticator": false
+    },
+    "DashboardOptions": {
+      "EnableIpTracking": false,
+      "SecurityEventRetentionDays": 30,
+      "AtRiskFailureThreshold": 3
     },
     "GoogleFontKey": "",
-    "LicenseKey": ""
+    "LicenseKey": "",
+    "Logging": {
+      "MinimumLevel": "Information",
+      "LevelOverrides": {
+        "Microsoft": "Warning",
+        "System": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "Quartz": "Warning"
+      },
+      "RollingInterval": "Day",
+      "FileSizeLimitBytes": 9437184,
+      "RetainedFileCountLimit": 10
+    }
   }
 }
