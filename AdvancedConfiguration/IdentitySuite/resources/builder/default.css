@@ -1,4 +1,6 @@
 ﻿:root {
+    --header: 0px;
+    --footer: 0px;
     /* Default / globals */
     --form-default-bg: #0084d1;
     --form-default-color: #ffffff;
@@ -7,22 +9,75 @@
     --form-default-font-size: 16px;
     --form-default-font-weight: normal;
     --form-default-font-family: Arial;
+    /* Page */
+    --page-bg: #f0f9ff;
+    /* Page container */
+    --page-container-width: initial;
+    --page-container-height: initial;
+    --page-container-min-width: initial;
+    --page-container-max-width: initial;
+    --page-container-margin: initial;
+    --page-container-box-shadow: none;
+    --page-container-border-radius: initial;
+    --page-container-border-color: initial;
+    --page-container-border-width: 0;
+    --page-container-bg: #f0f9ff;
+    /* Brand panel */
+    --brand-panel-bg: #80d3f9;
+    --brand-panel-box-shadow: none;
+    --brand-panel-border-radius: initial;
+    --brand-panel-border-color: initial;
+    --brand-panel-border-width: 0;
+    --brand-panel-padding: initial;
+    --brand-panel-max-width: initial;
+    --brand-panel-min-width: initial;
+    --brand-logo-position: relative;
+    --brand-logo-width: 120px;
+    --brand-logo-height: 120px;
+    --brand-logo-object-fit: contain;
+    --brand-logo-translate-x: 0;
+    --brand-logo-translate-y: 0;
+    --brand-logo-top: initial;
+    --brand-logo-left: initial;
+    --brand-logo-right: initial;
+    --brand-logo-bottom: initial;
+    --brand-logo-margin: 0rem;
+    --brand-logo-drop-shadow: none;
+    --brand-title-color: #FFFFFFFF;
+    --brand-title-font-size: 48px;
+    --brand-title-font-weight: bold;
+    --brand-title-font-family: Arial;
+    --brand-title-text-align: center;
+    --brand-title-shadow: none;
+    --brand-title-margin: 1rem 0rem 0rem;
+    --brand-subtitle-font-size: 20px;
+    --brand-subtitle-font-weight: normal;
+    --brand-subtitle-font-family: Arial;
+    --brand-subtitle-text-align: center;
+    --brand-subtitle-shadow: none;
+    --brand-subtitle-margin: 1rem 0rem 0rem;
     /* Card */
-    --form-card-border-color: #0084d1;
-    --form-card-border-radius: 0.25rem;
-    --form-card-border-width: 1px;
-    --form-card-box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.15);
+    --form-card-width: 24rem;
+    --form-card-height: auto;
+    --form-card-min-width: 22rem;
+    --form-card-max-width: 28rem;
+    --form-card-border-color: transparent;
+    --form-card-border-radius: initial;
+    --form-card-border-width: 0;
+    --form-card-box-shadow: none;
     /* Card Header */
-    --form-card-header-bg: #0084d1;
-    --form-card-header-color: #ffffff;
-    --form-card-header-padding: 0.75rem 1rem;
+    --form-card-header-bg: transparent;
+    --form-card-header-color: #00a6f4;
+    --form-card-header-padding: 0.5rem 1rem;
+    --form-card-header-margin: initial;
     --form-card-header-font-size: 20px;
     --form-card-header-font-weight: bold;
     --form-card-header-font-family: Arial;
     /* Card Body */
-    --form-card-body-bg: #ffffff;
+    --form-card-body-bg: transparent;
     --form-card-body-color: #0f0f0f;
-    --form-card-body-padding: 0.75rem 1rem;
+    --form-card-body-padding: 0.5rem;
+    --form-card-body-margin: initial;
     --form-card-body-font-size: 16px;
     --form-card-body-font-weight: normal;
     --form-card-body-font-family: Arial;
@@ -32,6 +87,7 @@
     --form-btn-font-size: 16px;
     --form-btn-font-weight: normal;
     --form-btn-font-family: Arial;
+    --form-btn-margin: 1.5rem 0rem 1rem;
     --form-btn-padding: 0.5rem 1rem;
     --form-btn-transition-duration: 0.3s;
     --form-btn-transition-delay: 0s;
@@ -39,45 +95,74 @@
     /* Button Primary */
     --form-btn-primary-bg: #0084d1;
     --form-btn-primary-color: #ffffff;
-    --form-btn-primary-border: #0084d1;
+    --form-btn-primary-border-color: #0084d1;
     --form-btn-primary-hover-bg: #00a6f4;
     --form-btn-primary-hover-color: #ffffff;
+    --form-btn-primary-hover-border-color: #0084d1;
     --form-btn-primary-active-bg: #0069a8;
     --form-btn-primary-active-color: #ffffff;
+    --form-btn-primary-active-border-color: #0084d1;
     --form-btn-primary-disabled-bg: #74d4ff;
     --form-btn-primary-disabled-color: #b8e6fe;
+    --form-btn-primary-disabled-border-color: #58bbe8;
     --form-btn-primary-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
     /* Button Outline */
     --form-btn-outline-bg: #ffffff;
     --form-btn-outline-color: #0084d1;
-    --form-btn-outline-border: #0084d1;
+    --form-btn-outline-border-color: #0084d1;
     --form-btn-outline-hover-bg: #00a6f4;
     --form-btn-outline-hover-color: #ffffff;
+    --form-btn-outline-hover-border-color: #0084d1;
     --form-btn-outline-active-bg: #0069a8;
     --form-btn-outline-active-color: #ffffff;
+    --form-btn-outline-active-border-color: #0084d1;
     --form-btn-outline-disabled-bg: #74d4ff;
     --form-btn-outline-disabled-color: #b8e6fe;
+    --form-btn-outline-disabled-active-border-color: #f46066;
     --form-btn-outline-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
     /* Button Danger */
     --form-btn-danger-bg: #e7000b;
     --form-btn-danger-color: #ffffff;
-    --form-btn-danger-border: #e7000b;
+    --form-btn-danger-border-color: #e7000b;
     --form-btn-danger-hover-bg: #fb2c36;
     --form-btn-danger-hover-color: #ffffff;
+    --form-btn-danger-hover-border-color: #e7000b;
     --form-btn-danger-active-bg: #c10007;
     --form-btn-danger-active-color: #ffffff;
+    --form-btn-danger-active-border-color: #e7000b;
     --form-btn-danger-disabled-bg: #ffa2a2;
     --form-btn-danger-disabled-color: #ffc9c9;
+    --form-btn-danger-disabled-border-color: #e7000b;
     --form-btn-danger-focus-shadow: 0 0 0 0.25rem rgba(231, 0, 11, 0.2);
-    /* Button Login */
-    --form-btn-login-color: #0084d1;
-    --form-btn-login-hover-color: #00a6f4;
-    --form-btn-login-active-color: #0069a8;
-    --form-btn-login-disabled-color: #7ebde4;
+    /* Button Social Login */
+    --social-layout: row;
+    --social-show-label: none;
+    --social-btn-direction: column;
+    --social-icon-size: 2.25rem;
+    --social-btn-bg: transparent;
+    --social-btn-hover-bg: transparent;
+    --social-btn-active-bg: transparent;
+    --social-btn-disabled-bg: transparent;
+    --social-btn-color: #0084d1;
+    --social-btn-hover-color: #00a6f4;
+    --social-btn-active-color: #0069a8;
+    --social-btn-disabled-color: #74d4ff;
+    --social-btn-padding: 0.25rem;
+    --social-btn-border-radius: 0;
+    --social-btn-border-width: 0;
+    --social-btn-border-color: transparent;
+    --social-btn-font-size: 16px;
+    --social-btn-font-weight: normal;
+    --social-btn-font-family: Arial;
+    --social-btn-transition-duration: 0.3s;
+    --social-btn-transition-delay: 0s;
+    --social-btn-transition-timing: ease-in-out;
+    --social-btn-margin: 0.5rem 0rem;
     /* Input */
     --form-input-bg: #ffffff;
     --form-input-color: #0f0f0f;
-    --form-input-border: #0084d1;
+    --form-input-border-color: #d1d5db;
+    --form-input-border-focus: #0084d1;
     --form-input-border-radius: 0.25rem;
     --form-input-border-width: 1px;
     --form-input-font-size: 16px;
@@ -85,6 +170,8 @@
     --form-input-font-family: Arial;
     --form-input-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
     --form-input-padding: 0.5rem 0.75rem;
+    --form-input-margin: 0rem 0rem 1rem;
+    --form-label-color: #64748b;
     /* Link */
     --form-link-color: #0f0f0f;
     --form-link-hover-color: #00a6f4;
@@ -94,9 +181,10 @@
     --form-link-font-family: Arial;
     --form-link-font-style: normal;
     --form-link-text-decoration: none;
-    --form-link-transition-duration: 0.2s;
+    --form-link-transition-duration: 0.3s;
     --form-link-transition-delay: 0s;
     --form-link-transition-timing: ease-in-out;
+    --form-link-margin: 0rem 0rem 0.75rem;
     /* Validation */
     --form-validation-color: #e7000b;
     --form-validation-font-size: 14px;
@@ -105,36 +193,81 @@
     --form-validation-font-style: normal;
     /* Alert base */
     --form-alert-padding: 0.75rem 1rem;
+    --form-alert-margin: 0rem 0rem 0.75rem;
     /* Alert Success */
     --form-alert-success-bg: #dcfce7;
     --form-alert-success-color: #0d542b;
-    --form-alert-success-border: #7bf1a8;
+    --form-alert-success-border-color: #7bf1a8;
     --form-alert-success-border-radius: 0.25rem;
     --form-alert-success-border-width: 1px;
     /* Alert Warning */
     --form-alert-warning-bg: #fef9c2;
     --form-alert-warning-color: #733e0a;
-    --form-alert-warning-border: #ffdf20;
+    --form-alert-warning-border-color: #ffdf20;
     --form-alert-warning-border-radius: 0.25rem;
     --form-alert-warning-border-width: 1px;
     /* Alert Danger */
     --form-alert-danger-bg: #ffe2e2;
     --form-alert-danger-color: #82181a;
-    --form-alert-danger-border: #ffa2a2;
+    --form-alert-danger-border-color: #ffa2a2;
     --form-alert-danger-border-radius: 0.25rem;
     --form-alert-danger-border-width: 1px;
     /* Switch */
-    --form-switch-border: #0084d1;
+    --form-switch-border-color: #0084d1;
     --form-switch-checked-bg: #0084d1;
     --form-switch-focus-shadow: 0 0 0 0.25rem rgba(0, 132, 209, 0.2);
+    --form-switch-margin: 0.5rem 0rem 2rem;
+    /* Manage page */
+    --manage-page-bg: #f0f9ff;
+    /* Manage Card */
+    --manage-card-width: 100%;
+    --manage-card-height: auto;
+    --manage-card-min-width: 0px;
+    --manage-card-max-width: 1200px;
+    --manage-card-box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.06);
+    --manage-card-border-color: transparent;
+    --manage-card-border-radius: 0.75rem;
+    --manage-card-border-width: 1px;
+    /* Manage Card Header */
+    --manage-card-header-bg: #f0f9ff;
+    --manage-card-header-color: #414349;
+    --manage-card-header-font-size: 20px;
+    --manage-card-header-font-weight: normal;
+    --manage-card-header-font-family: Arial;
+    --manage-card-header-padding: 0.75rem 1.5rem;
+    --manage-card-header-margin: 0;
+    --manage-card-header-logo-height: 2.5rem;
+    --manage-card-header-logo-width: auto;
+    /* Manage Card Body */
+    --manage-card-body-bg: #ffffff;
+    --manage-card-body-color: #0f172a;
+    --manage-card-body-font-size: 16px;
+    --manage-card-body-font-weight: normal;
+    --manage-card-body-font-family: Arial;
+    --manage-card-body-padding: 1.5rem;
+    --manage-card-body-margin: 0;
     /* Nav */
-    --form-nav-font-size: 16px;
-    --form-nav-font-weight: normal;
-    --form-nav-font-family: Arial;
-    --form-nav-active-bg: #0084d1;
-    --form-nav-active-color: #ffffff;
-    --form-nav-active-border: #0084d1;
-    --form-nav-active-border-radius: 0.25rem;
-    --form-nav-active-border-width: 1px;
-    --form-nav-menu-border: #0084d1;
+    --manage-nav-bg: #dff2fe;
+    --manage-nav-border-color: #0084d164;
+    --manage-nav-group-label-color: #0084d1;
+    --manage-nav-btn-font-size: 16px;
+    --manage-nav-btn-font-weight: normal;
+    --manage-nav-btn-font-family: Arial;
+    --manage-nav-btn-padding: 0.25rem 0.75rem;
+    --manage-nav-btn-margin: 0rem 0rem 0.25rem;
+    --manage-nav-btn-normal-color: #052f4a;
+    --manage-nav-btn-normal-hover-color: #0084d1;
+    --manage-nav-btn-normal-border-color: transparent;
+    --manage-nav-btn-normal-hover-border-color: #0084d1;
+    --manage-nav-btn-selected-bg: #0084d1;
+    --manage-nav-btn-selected-color: #ffffff;
+    --manage-nav-btn-selected-border-color: #0084d1;
+    --manage-nav-btn-selected-hover-bg: #00a6f4;
+    --manage-nav-btn-selected-hover-color: #ffffff;
+    --manage-nav-btn-selected-hover-border-color: #0084d1;
+    --manage-nav-btn-border-radius: 0.25rem;
+    --manage-nav-btn-border-width: 1px;
+    --manage-nav-btn-transition-duration: 0.3s;
+    --manage-nav-btn-transition-delay: 0s;
+    --manage-nav-btn-transition-timing: ease-in-out;
 }

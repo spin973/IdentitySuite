@@ -1,6 +1,4 @@
-﻿using IdentitySuite.Abstractions.Data.Entities;
-using IdentitySuite.Abstractions.Interfaces;
-using IdentitySuite.Abstractions.Interfaces.Entities;
+﻿using IdentitySuite.Abstractions.Interfaces.Entities;
 using IdentitySuite.Core.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
@@ -25,7 +23,7 @@ public static class CustomEndpoints
         HttpContext httpContext,
         HttpRequest httpRequest,
         IIdentitySuiteUserService userManager,
-        ISessionClientDataService sessionClientData,
+        IOpenIddictApplicationManager applicationManager,
         IOpenIddictScopeManager scopeManager,
         IOpenIddictAuthorizationManager authorizationManager,
         IOptions<RequestLocalizationOptions> localizationOptions,
@@ -77,11 +75,6 @@ public static class CustomEndpoints
                     }),
                     authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
             }
-
-            // Collects data about the client application for use in login pages.
-            // The first time the user logs in, the data is stored in the session,
-            // further times, the data is retrieved from the session.
-            await sessionClientData.GetClientDataAsync(request.ClientId, request.RedirectUri);
 
             return Results.Challenge(
                 properties: new AuthenticationProperties
@@ -146,8 +139,22 @@ public static class CustomEndpoints
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
 
-        var clientApplication = await sessionClientData.GetClientDataAsync(request.ClientId, request.RedirectUri);
-        if (clientApplication is null)
+        if (string.IsNullOrEmpty(request.ClientId))
+        {
+            return Results.Forbid(
+                properties: new AuthenticationProperties(new Dictionary<string, string?>
+                {
+                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.LoginRequired,
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                        "The client identifier is missing."
+                }),
+                authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
+        }
+
+        var application = await applicationManager.FindByClientIdAsync(request.ClientId);
+
+
+        if (application is null)
         {
             return Results.Forbid(
                 properties: new AuthenticationProperties(new Dictionary<string, string?>
@@ -159,14 +166,16 @@ public static class CustomEndpoints
                 authenticationSchemes: [OpenIddictServerAspNetCoreDefaults.AuthenticationScheme]);
         }
 
+        var clientId = await applicationManager.GetIdAsync(application);
+
         var authorizations = await authorizationManager.FindAsync(
             subject: await userManager.GetUserIdAsync(user),
-            client: clientApplication.Id,
+            client: clientId,
             status: Statuses.Valid,
             type: AuthorizationTypes.Permanent,
             scopes: request.GetScopes()).ToListAsync();
 
-        switch (clientApplication.ConsentType)
+        switch (await applicationManager.GetConsentTypeAsync(application))
         {
             case ConsentTypes.External when authorizations.Count == 0:
                 return Results.Forbid(
@@ -191,7 +200,7 @@ public static class CustomEndpoints
                 authorization ??= await authorizationManager.CreateAsync(
                     principal: principal,
                     subject: await userManager.GetUserIdAsync(user),
-                    client: clientApplication.Id,
+                    client: clientId,
                     type: AuthorizationTypes.Permanent,
                     scopes: principal.GetScopes());
 
@@ -218,7 +227,7 @@ public static class CustomEndpoints
 
             default:
                 return Results.LocalRedirect(
-                    $"/Account/Consent{httpContext.Request.QueryString}&clientId={clientApplication.ClientId}&scope={request.Scope}");
+                    $"/Account/Consent{httpContext.Request.QueryString}&clientId={request.ClientId}&scope={request.Scope}");
         }
     }
 
@@ -662,8 +671,6 @@ public static class CustomEndpoints
 
     public static async Task<IResult> LogoutGetEndpointDelegate(
         HttpContext httpContext,
-        ISessionClientDataService sessionClientData,
-        IOpenIddictApplicationManager applicationManager,
         ILogger logger)
     {
         var request = httpContext.GetOpenIddictServerRequest();
@@ -671,16 +678,6 @@ public static class CustomEndpoints
         if (request?.PostLogoutRedirectUri is null)
         {
             return Results.LocalRedirect("/Account/Logout");
-        }
-
-        var applications = await applicationManager.FindByPostLogoutRedirectUriAsync(request.PostLogoutRedirectUri)
-            .ToListAsync();
-
-        if (applications.FirstOrDefault() is { } application)
-        {
-            request.ClientId = await applicationManager.GetClientIdAsync(application);
-
-            await sessionClientData.GetClientDataAsync(request.ClientId);
         }
 
         return Results.LocalRedirect($"/Account/Logout{httpContext.Request.QueryString}");
